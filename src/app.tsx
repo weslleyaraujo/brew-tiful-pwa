@@ -8,6 +8,7 @@ import { RecipeScreen } from "./screens/RecipeScreen";
 import { BrewScreen } from "./screens/BrewScreen";
 import { BrewHistoryScreen } from "./screens/BrewHistoryScreen";
 import { BrewCompleteScreen } from "./screens/BrewCompleteScreen";
+import { FavoritesScreen } from "./screens/FavoritesScreen";
 import { UpdatePrompt } from "./components/UpdatePrompt";
 import { activeTab, activeView, type Tab } from "./store/ui";
 import { loading, loadRecipes } from "./store/recipes";
@@ -51,6 +52,7 @@ export function App() {
         {view.type === "recipe" && <RecipeScreen />}
         {view.type === "brew" && <BrewScreen />}
         {view.type === "brew-complete" && <BrewCompleteScreen />}
+        {view.type === "favorites" && <FavoritesScreen />}
         {view.type === "history" && <BrewHistoryScreen />}
       </div>
     );

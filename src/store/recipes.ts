@@ -157,3 +157,11 @@ export function getBrewsForRecipe(recipeId: string): BrewRecord[] {
     .filter((b) => b.recipeId === recipeId)
     .sort((a, b) => b.brewedAt.getTime() - a.brewedAt.getTime())
 }
+
+export const lastRecipeByMethod = computed(() => {
+  const map = new Map<string, string>()
+  for (const brew of [...brews.value].sort((a, b) => b.brewedAt.getTime() - a.brewedAt.getTime())) {
+    if (!map.has(brew.method)) map.set(brew.method, brew.recipeId)
+  }
+  return map
+})

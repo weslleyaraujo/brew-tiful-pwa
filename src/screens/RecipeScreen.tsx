@@ -1,4 +1,4 @@
-import { getRecipeById, getAdjustment, isRecipeAdjusted } from '../store/recipes'
+import { getRecipeById, getAdjustment, isRecipeAdjusted, getBrewsForRecipe } from '../store/recipes'
 import { navigateTo, goBack, activeView, openAdjustments } from '../store/ui'
 import {
   formatMethod, formatGrind, formatWeight, formatTemperature,
@@ -8,7 +8,7 @@ import { calculateRatio } from '../lib/conversion'
 import type { StepData, Recipe } from '../db/types'
 import { FAB } from '../components/ui/FAB'
 import { Badge } from '../components/ui/Badge'
-import { ArrowLeft, SlidersHorizontal, Play, Timer, Clock, Coffee } from 'lucide-preact'
+import { ArrowLeft, SlidersHorizontal, Play, Timer, Clock, Coffee, Star } from 'lucide-preact'
 import { AdjustmentsSheet } from '../components/AdjustmentsSheet'
 
 // ── Reduce step configs ──
@@ -247,6 +247,9 @@ export function RecipeScreen() {
           {/* Fade-out line */}
           <div class="absolute left-[11px] top-[calc(100%-12px)] w-px h-6 bg-gradient-to-b from-[var(--color-amber)]/20 to-transparent" />
         </div>
+
+        {/* ── Brew History for this Recipe ── */}
+        <BrewsForRecipeSection recipeId={recipeId} />
       </div>
 
       {/* ── FAB ── */}
@@ -258,4 +261,64 @@ export function RecipeScreen() {
       <AdjustmentsSheet recipe={recipe} displayBeans={displayBeans} displayWater={displayWater} />
     </div>
   )
+}
+
+function BrewsForRecipeSection({ recipeId }: { recipeId: string }) {
+  const brews = getBrewsForRecipe(recipeId)
+  if (brews.length === 0) return null
+
+  return (
+    <div class="mt-8 ml-8">
+      <h2 class="text-caption1 text-[var(--text-secondary)] uppercase tracking-wider mb-3">
+        Your Brews of this Recipe
+      </h2>
+      <div class="flex flex-col gap-2">
+        {brews.slice(0, 3).map((brew) => (
+          <div
+            key={brew.id}
+            class="bg-[var(--bg-card)]/50 rounded-xl border border-[var(--color-separator)]/50 px-3 py-2"
+          >
+            <div class="flex items-center gap-1.5 mb-1">
+              {brew.rating && (
+                <span class="flex gap-0.5">
+                  {[1, 2, 3, 4, 5].map(s => (
+                    <Star
+                      key={s}
+                      size={10}
+                      strokeWidth={1.5}
+                      class={s <= brew.rating! ? 'text-[var(--color-amber)] fill-[var(--color-amber)]' : 'text-[var(--text-tertiary)]/20'}
+                    />
+                  ))}
+                </span>
+              )}
+              <span class="text-caption2 text-[var(--text-tertiary)]">
+                {formatBrewDate(brew.brewedAt)}
+              </span>
+            </div>
+            {brew.notes && (
+              <p class="text-caption1 text-[var(--text-secondary)] italic">"{brew.notes.slice(0, 80)}{brew.notes.length > 80 ? '...' : ''}"</p>
+            )}
+          </div>
+        ))}
+      </div>
+      {brews.length > 3 && (
+        <button
+          onClick={() => navigateTo({ type: 'history' })}
+          class="mt-2 text-caption2 text-[var(--color-caramel)]"
+        >
+          View all {brews.length} brews →
+        </button>
+      )}
+    </div>
+  )
+}
+
+function formatBrewDate(date: Date): string {
+  const diff = Date.now() - date.getTime()
+  const days = Math.floor(diff / 86400000)
+  if (days === 0) return 'Today'
+  if (days === 1) return 'Yesterday'
+  if (days < 7) return `${days} days ago`
+  if (days < 30) return `${Math.floor(days / 7)} week${Math.floor(days / 7) > 1 ? 's' : ''} ago`
+  return 'Last month'
 }

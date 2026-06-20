@@ -2,8 +2,9 @@ import { useMemo, useState } from 'preact/hooks'
 import { brews, deleteBrew } from '../store/recipes'
 import { navigateTo, goBack, activeView } from '../store/ui'
 import { formatMethod, formatWeight } from '../lib/format'
-import { ArrowLeft, Play, Clock, Star, FileText, Trash2 } from 'lucide-preact'
+import { ArrowLeft, Play, Clock, Star, FileText, Trash2, BarChart3 } from 'lucide-preact'
 import { EmptyState } from '../components/ui/EmptyState'
+import { StatsContent } from './StatsScreen'
 
 function getStats() {
   const all = brews.value
@@ -97,6 +98,7 @@ export function BrewHistoryScreen() {
   const isModal = activeView.value.type === 'history'
   const [expandedNotes, setExpandedNotes] = useState<string | null>(null)
   const [confirmDelete, setConfirmDelete] = useState<string | null>(null)
+  const [showStats, setShowStats] = useState(false)
 
   return (
     <div class="flex flex-col h-full relative">
@@ -114,8 +116,21 @@ export function BrewHistoryScreen() {
           </button>
         )}
         <h1 class="text-title1-bold font-display">History</h1>
+        <div class="flex-1" />
+        <button
+          onClick={() => setShowStats(!showStats)}
+          class={`p-2 rounded-xl transition-colors ${
+            showStats ? 'bg-[var(--color-amber)]/10 text-[var(--color-amber)]' : 'text-[var(--text-tertiary)]'
+          }`}
+        >
+          <BarChart3 size={18} strokeWidth={2} />
+        </button>
       </div>
 
+      {showStats ? (
+        <StatsContent />
+      ) : (
+        <>
       {/* Stats pills */}
       {stats && (
         <div class="px-4 pb-4 flex gap-2 overflow-x-auto scrollbar-none">
@@ -237,6 +252,7 @@ export function BrewHistoryScreen() {
           </div>
         )}
       </div>
+      )}
     </div>
   )
 }

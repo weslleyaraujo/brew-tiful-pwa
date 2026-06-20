@@ -13,6 +13,7 @@ export interface RecipeView { type: 'recipe'; recipeId: string }
 export interface BrewView { type: 'brew'; recipeId: string }
 export interface BrewCompleteView { type: 'brew-complete'; recipeId: string; brewId: string }
 export interface HistoryView { type: 'history' }
+export interface FavoritesView { type: 'favorites' }
 
 export type ViewState = 
   | { type: 'tabs' }
@@ -21,6 +22,7 @@ export type ViewState =
   | BrewView
   | BrewCompleteView
   | HistoryView
+  | FavoritesView
 
 export const activeView = signal<ViewState>({ type: 'tabs' })
 

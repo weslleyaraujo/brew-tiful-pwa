@@ -1,9 +1,9 @@
-import { recipesByMethod, recentBrews, brews, favorites, favoriteIds, toggleFavorite } from '../store/recipes'
+import { recipesByMethod, recentBrews, brews, favorites, favoriteIds, toggleFavorite, lastRecipeByMethod } from '../store/recipes'
 import { navigateTo } from '../store/ui'
 import { formatMethod, formatMethodDescription } from '../lib/format'
 import { MethodIcon } from '../lib/method-colors'
 import { Play, Clock, Heart, Flame } from 'lucide-preact'
-import { useMemo, useState, useEffect } from 'preact/hooks'
+import { useMemo, useState, useEffect, useRef, useCallback } from 'preact/hooks'
 import type { Method } from '../db/types'
 
 function useGreeting() {
@@ -55,6 +55,40 @@ export function HomeScreen() {
   const lastBrew = recentBrews.value[0]
   const weeklyStats = useMemo(() => getWeeklyStats(), [])
   const dailyTip = useMemo(() => getDailyTip(), [])
+  const longPressTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const isLongPress = useRef(false)
+
+  const handleMethodPress = useCallback((method: Method) => {
+    if (isLongPress.current) {
+      isLongPress.current = false
+      return
+    }
+    navigateTo({ type: 'method', method })
+  }, [])
+
+  const handleMethodLongPress = useCallback((method: Method) => {
+    isLongPress.current = true
+    const lastRecipe = lastRecipeByMethod.value.get(method)
+    if (lastRecipe) {
+      navigateTo({ type: 'brew', recipeId: lastRecipe })
+    } else {
+      navigateTo({ type: 'method', method })
+    }
+  }, [])
+
+  const startLongPress = useCallback((method: Method) => {
+    isLongPress.current = false
+    longPressTimer.current = setTimeout(() => {
+      handleMethodLongPress(method)
+    }, 400)
+  }, [handleMethodLongPress])
+
+  const cancelLongPress = useCallback(() => {
+    if (longPressTimer.current) {
+      clearTimeout(longPressTimer.current)
+      longPressTimer.current = null
+    }
+  }, [])
 
   return (
     <div class="flex flex-col gap-6 p-4 pt-[calc(16px+var(--safe-top))] pb-24 relative overflow-y-auto">
@@ -69,7 +103,7 @@ export function HomeScreen() {
           <p class="text-body text-[var(--text-secondary)]">{greeting.subtitle}</p>
         </div>
         <button
-          onClick={() => navigateTo({ type: 'history' })}
+          onClick={() => navigateTo({ type: 'favorites' })}
           class="p-2 rounded-xl text-[var(--text-secondary)] active:scale-90 transition-transform"
         >
           <Heart
@@ -135,7 +169,13 @@ export function HomeScreen() {
             return (
               <button
                 key={method}
-                onClick={() => navigateTo({ type: 'method', method })}
+                onClick={() => handleMethodPress(method)}
+                onTouchStart={() => startLongPress(method)}
+                onTouchEnd={cancelLongPress}
+                onTouchMove={cancelLongPress}
+                onMouseDown={() => startLongPress(method)}
+                onMouseUp={cancelLongPress}
+                onMouseLeave={cancelLongPress}
                 class="bg-[var(--bg-card)] rounded-2xl border border-[var(--color-separator)] p-4 flex flex-col gap-1 items-start text-left active:scale-[0.97] transition-transform animate-scale-in"
                 style={{
                   animationDelay: `${idx * 50}ms`,
