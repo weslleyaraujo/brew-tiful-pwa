@@ -309,7 +309,7 @@ function BrewsForRecipeSection({ recipeId }: { recipeId: string }) {
                     <span class="text-[var(--text-tertiary)]">·</span>
                     <span>1:{brew.ratio.toFixed(1)}</span>
                     {isAdjusted && (
-                      <span class="text-[var(--color-caramel)] text-caption2 font-sans">adjusted</span>
+                      <span class="text-[var(--text-tertiary)]/60 text-caption2 font-sans">adjusted</span>
                     )}
                   </div>
                   {brew.notes && (
@@ -330,9 +330,9 @@ function BrewsForRecipeSection({ recipeId }: { recipeId: string }) {
                     }
                     navigateTo({ type: 'brew', recipeId })
                   }}
-                  class="flex-shrink-0 px-3 py-1.5 rounded-lg bg-[var(--color-caramel)] text-white text-caption2 font-medium active:scale-95 transition-transform"
+                  class="flex-shrink-0 w-7 h-7 rounded-full bg-[var(--bg-tertiary)]/50 flex items-center justify-center active:scale-90 transition-transform"
                 >
-                  Brew Again
+                  <Play size={12} strokeWidth={2.5} class="text-[var(--text-tertiary)] ml-0.5" />
                 </button>
               </div>
             </div>
