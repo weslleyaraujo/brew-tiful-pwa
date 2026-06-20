@@ -1,0 +1,16 @@
+{
+  "name": "Hoffmann French Press",
+  "method": "FRENCH_PRESS",
+  "beans": 30,
+  "water": 500,
+  "temperature": 94,
+  "grind": "MEDIUM_COARSE",
+  "steps": [
+    { "step": "GRIND_COFFEE", "position": 1, "configs": [] },
+    { "step": "ADD_COFFEE_AND_WATER", "position": 2, "configs": [{ "type": "AMOUNT_OF_WATER", "value": 500 }] },
+    { "step": "BREW", "position": 3, "configs": [{ "type": "DURATION", "value": 240 }] },
+    { "step": "STIR", "position": 4, "configs": [{ "type": "TIMES", "value": 1 }] },
+    { "step": "BREW", "position": 5, "configs": [{ "type": "DURATION", "value": 300 }] },
+    { "step": "PLUNGE", "position": 6, "configs": [{ "type": "DURATION", "value": 5 }] }
+  ]
+}

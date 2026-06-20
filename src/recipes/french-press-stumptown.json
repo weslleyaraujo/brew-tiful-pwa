@@ -1,0 +1,18 @@
+{
+  "name": "Stumptown French Press",
+  "method": "FRENCH_PRESS",
+  "beans": 56,
+  "water": 850,
+  "temperature": 96,
+  "grind": "COARSE",
+  "steps": [
+    { "step": "GRIND_COFFEE", "position": 1, "configs": [] },
+    { "step": "RINSE_FILTER", "position": 2, "configs": [] },
+    { "step": "ADD_COFFEE_AND_WATER", "position": 3, "configs": [{ "type": "AMOUNT_OF_WATER", "value": 450 }] },
+    { "step": "BREW", "position": 4, "configs": [{ "type": "DURATION", "value": 60 }] },
+    { "step": "STIR", "position": 5, "configs": [{ "type": "TIMES", "value": 1 }] },
+    { "step": "ADD_WATER", "position": 6, "configs": [{ "type": "AMOUNT_OF_WATER", "value": 400 }] },
+    { "step": "BREW", "position": 7, "configs": [{ "type": "DURATION", "value": 180 }] },
+    { "step": "PLUNGE", "position": 8, "configs": [{ "type": "DURATION", "value": 10 }] }
+  ]
+}

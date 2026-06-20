@@ -1,0 +1,15 @@
+{
+  "name": "Hoffmann Moka Pot",
+  "method": "MOKA_POT",
+  "beans": 18,
+  "water": 100,
+  "temperature": 100,
+  "grind": "MEDIUM_FINE",
+  "steps": [
+    { "step": "GRIND_COFFEE", "position": 1, "configs": [] },
+    { "step": "ADD_WATER", "position": 2, "configs": [{ "type": "AMOUNT_OF_WATER", "value": 100 }] },
+    { "step": "RINSE_FILTER", "position": 3, "configs": [] },
+    { "step": "ADD_COFFEE_AND_WATER", "position": 4, "configs": [{ "type": "AMOUNT_OF_WATER", "value": 0 }] },
+    { "step": "BREW", "position": 5, "configs": [{ "type": "DURATION", "value": 240 }] }
+  ]
+}

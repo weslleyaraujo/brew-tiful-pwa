@@ -1,0 +1,14 @@
+{
+  "name": "Classic Moka Pot",
+  "method": "MOKA_POT",
+  "beans": 18,
+  "water": 100,
+  "temperature": 100,
+  "grind": "FINE",
+  "steps": [
+    { "step": "GRIND_COFFEE", "position": 1, "configs": [] },
+    { "step": "ADD_WATER", "position": 2, "configs": [{ "type": "AMOUNT_OF_WATER", "value": 100 }] },
+    { "step": "ADD_COFFEE_AND_WATER", "position": 3, "configs": [{ "type": "AMOUNT_OF_WATER", "value": 0 }] },
+    { "step": "BREW", "position": 4, "configs": [{ "type": "DURATION", "value": 300 }] }
+  ]
+}

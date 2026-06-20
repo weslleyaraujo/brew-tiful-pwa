@@ -1,0 +1,381 @@
+@import 'tailwindcss';
+
+/* ── Design Tokens for Brew-tiful ───────────────────────────── */
+/*   Ported from brew-tiful's adaptive-colors.ts + typography.ts */
+
+@layer base {
+  :root {
+    /* ── Backgrounds ── */
+    --bg-app: #ffffff;
+    --bg-card: #f2f2f7;        /* systemGray6 → backgroundSecondary */
+    --bg-elevated: #ffffff;
+    --bg-overlay: rgba(0, 0, 0, 0.4);
+    --bg-tertiary: #e5e5ea;    /* systemGray5 → backgroundTertiary */
+
+    /* ── Text (label colors) ── */
+    --text-primary: #000000;    /* labelPrimary */
+    --text-secondary: #3c3c43;  /* labelSecondary ≈ 60% opacity on primary */
+    --text-tertiary: #8e8e93;   /* labelTertiary */
+    --text-inverse: #ffffff;
+
+    /* ── System colors ── */
+    --color-blue: #007aff;          /* systemBlue */
+    --color-red: #ff3b30;           /* systemRed */
+    --color-green: #34c759;         /* systemGreen */
+    --color-white: #ffffff;
+    --color-black: #000000;
+
+    /* ── Coffee palette ── */
+    --color-amber: #f59e0b;
+    --color-amber-light: #fcd34d;
+    --color-caramel: #d97706;
+    --color-cream: #fef3c7;
+    --color-espresso: #44403c;
+    --color-mocha: #78716c;
+
+    /* ── UI Chrome ── */
+    --color-separator: rgba(60, 60, 67, 0.12);  /* separatorNonOpaque */
+    --color-destructive: #cc0000;
+    --color-success: #34c759;
+
+    /* ── Radii ── */
+    --radius-none: 0;
+    --radius-small: 4px;
+    --radius-medium: 8px;
+    --radius-large: 16px;
+    --radius-full: 9999px;
+
+    /* ── Spacing ── */
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-top: env(safe-area-inset-top, 0px);
+
+    /* ── Shadows ── */
+    --shadow-elevated: 0 0 0 0.5px rgba(0, 0, 0, 0.04), 0 1px 4px rgba(0, 0, 0, 0.12);
+  }
+
+  .dark {
+    --bg-app: #000000;
+    --bg-card: #1c1c1e;         /* dark bg secondary */
+    --bg-elevated: #2c2c2e;
+    --bg-overlay: rgba(0, 0, 0, 0.7);
+    --bg-tertiary: #3a3a3c;
+
+    --text-primary: #ffffff;
+    --text-secondary: #98989d;
+    --text-tertiary: #555559;
+    --text-inverse: #000000;
+
+    --color-blue: #0a84ff;
+    --color-red: #ff453a;
+    --color-green: #30d158;
+    --color-separator: rgba(84, 84, 88, 0.32);
+
+    /* ── Coffee palette dark ── */
+    --color-amber: #fbbf24;
+    --color-amber-light: #fde68a;
+    --color-caramel: #f59e0b;
+    --color-cream: #292524;
+    --color-espresso: #fafaf9;
+    --color-mocha: #d6d3d1;
+
+    --shadow-elevated: 0 0 0 0.5px rgba(255, 255, 255, 0.08), 0 1px 4px rgba(0, 0, 0, 0.6);
+  }
+}
+
+/* ── Base Styles ────────────────────────────────────────────── */
+
+@layer base {
+  * {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-user-select: none;
+    user-select: none;
+    touch-action: manipulation;
+  }
+
+  html {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto,
+      'Helvetica Neue', Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: var(--bg-app);
+    color: var(--text-primary);
+    height: 100%;
+    overflow: hidden;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overscroll-behavior: none;
+    background-color: var(--bg-app);
+    overflow: hidden;
+  }
+
+  input,
+  textarea {
+    -webkit-user-select: text;
+    user-select: text;
+  }
+
+  button {
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+/* ── Typography Utilities ───────────────────────────────────── */
+
+@layer utilities {
+  /* Ported from brew-tiful typography.ts */
+
+  .text-largetitle {
+    font-size: 34px;
+    font-weight: 400;
+    line-height: 41px;
+    letter-spacing: -0.03em;
+  }
+  .text-largetitle-bold {
+    font-size: 34px;
+    font-weight: 700;
+    line-height: 41px;
+    letter-spacing: -0.03em;
+  }
+
+  .text-title1 {
+    font-size: 28px;
+    font-weight: 400;
+    line-height: 34px;
+    letter-spacing: -0.03em;
+  }
+  .text-title1-bold {
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 34px;
+    letter-spacing: -0.03em;
+  }
+
+  .text-title2 {
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 28px;
+    letter-spacing: -0.03em;
+  }
+  .text-title2-bold {
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 28px;
+    letter-spacing: -0.03em;
+  }
+
+  .text-title3 {
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 25px;
+    letter-spacing: -0.03em;
+  }
+  .text-title3-bold {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 25px;
+    letter-spacing: -0.03em;
+  }
+
+  .text-headline {
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 22px;
+    letter-spacing: -0.03em;
+  }
+
+  .text-body {
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 22px;
+    letter-spacing: -0.03em;
+  }
+  .text-body-bold {
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 22px;
+    letter-spacing: -0.03em;
+  }
+
+  .text-callout {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 21px;
+    letter-spacing: -0.03em;
+  }
+
+  .text-subheadline {
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: -0.03em;
+  }
+
+  .text-footnote {
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 18px;
+    letter-spacing: -0.03em;
+  }
+
+  .text-caption1 {
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16px;
+    letter-spacing: -0.03em;
+  }
+  .text-caption1-bold {
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 16px;
+    letter-spacing: -0.03em;
+  }
+
+  .text-caption2 {
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 13px;
+    letter-spacing: -0.03em;
+  }
+
+  .text-mono {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.3;
+    font-feature-settings: 'tnum';
+    font-family: 'JetBrains Mono', 'SF Mono', 'Cascadia Code', 'Fira Code', monospace;
+  }
+
+  .font-display {
+    font-family: 'Young Serif', 'Palatino Linotype', 'Book Antiqua', Georgia, serif;
+  }
+
+  .font-mono {
+    font-family: 'JetBrains Mono', 'SF Mono', 'Cascadia Code', 'Fira Code', monospace;
+    font-feature-settings: 'tnum';
+  }
+
+  .text-brand {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+}
+
+/* ── Animations ─────────────────────────────────────────────── */
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slide-up {
+  from { transform: translateY(100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes count-pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+@keyframes scale-in {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes breath-shadow {
+  0%, 100% { box-shadow: 0 4px 16px rgba(217, 119, 6, 0.25); }
+  50% { box-shadow: 0 4px 28px rgba(217, 119, 6, 0.45); }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(245, 158, 11, 0); }
+}
+
+@keyframes wave-morph {
+  0%   { d: path("M0,224 C120,192 240,256 360,224 C480,192 600,256 720,224 C840,192 960,256 1080,224 C1200,192 1320,256 1440,224 L1440,320 L0,320 Z"); }
+  25%  { d: path("M0,192 C120,256 240,192 360,224 C480,256 600,192 720,208 C840,224 960,192 1080,240 C1200,256 1320,192 1440,208 L1440,320 L0,320 Z"); }
+  50%  { d: path("M0,208 C120,176 240,240 360,192 C480,176 600,240 720,224 C840,208 960,240 1080,192 C1200,176 1320,240 1440,224 L1440,320 L0,320 Z"); }
+  75%  { d: path("M0,240 C120,208 240,176 360,240 C480,208 600,176 720,192 C840,208 960,176 1080,224 C1200,240 1320,208 1440,192 L1440,320 L0,320 Z"); }
+  100% { d: path("M0,224 C120,192 240,256 360,224 C480,192 600,256 720,224 C840,192 960,256 1080,224 C1200,192 1320,256 1440,224 L1440,320 L0,320 Z"); }
+}
+
+@keyframes wave-morph-slow {
+  0%   { d: path("M0,256 C180,224 360,288 540,256 C720,224 900,288 1080,256 C1260,224 1350,288 1440,256 L1440,320 L0,320 Z"); }
+  33%  { d: path("M0,224 C180,272 360,208 540,240 C720,272 900,208 1080,224 C1260,240 1350,208 1440,240 L1440,320 L0,320 Z"); }
+  66%  { d: path("M0,240 C180,208 360,264 540,232 C720,208 900,264 1080,248 C1260,232 1350,264 1440,232 L1440,320 L0,320 Z"); }
+  100% { d: path("M0,256 C180,224 360,288 540,256 C720,224 900,288 1080,256 C1260,224 1350,288 1440,256 L1440,320 L0,320 Z"); }
+}
+
+.animate-fade-in {
+  animation: fade-in 200ms ease-out;
+}
+
+.animate-slide-up {
+  animation: slide-up 300ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.animate-count-pulse {
+  animation: count-pulse 120ms ease-out;
+}
+
+.animate-scale-in {
+  animation: scale-in 250ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.animate-breath-shadow {
+  animation: breath-shadow 3s ease-in-out infinite;
+}
+
+.animate-glow-pulse {
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+
+.animate-wave-morph {
+  animation: wave-morph 6s ease-in-out infinite;
+}
+
+.animate-wave-morph-slow {
+  animation: wave-morph-slow 9s ease-in-out infinite;
+}
+
+/* ── Scrollbar ──────────────────────────────────────────────── */
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+html, body, * {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+/* Snap scroll utilities */
+.snap-y-mandatory {
+  scroll-snap-type: y mandatory;
+}
+.snap-start {
+  scroll-snap-align: start;
+}
+
+/* Mask gradient for scroll edge */
+.mask-r {
+  -webkit-mask-image: linear-gradient(to right, black calc(100% - 32px), transparent 100%);
+  mask-image: linear-gradient(to right, black calc(100% - 32px), transparent 100%);
+}

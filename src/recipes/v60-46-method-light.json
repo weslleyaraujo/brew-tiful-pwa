@@ -1,0 +1,18 @@
+{
+  "name": "4:6 Method Light",
+  "method": "V60",
+  "beans": 20,
+  "water": 300,
+  "temperature": 96,
+  "grind": "COARSE",
+  "steps": [
+    { "step": "GRIND_COFFEE", "position": 1, "configs": [] },
+    { "step": "RINSE_FILTER", "position": 2, "configs": [] },
+    { "step": "ADD_COFFEE_AND_WATER", "position": 3, "configs": [{ "type": "AMOUNT_OF_WATER", "value": 60 }] },
+    { "step": "BREW", "position": 4, "configs": [{ "type": "DURATION", "value": 45 }] },
+    { "step": "ADD_WATER", "position": 5, "configs": [{ "type": "AMOUNT_OF_WATER", "value": 60 }] },
+    { "step": "BREW", "position": 6, "configs": [{ "type": "DURATION", "value": 45 }] },
+    { "step": "ADD_WATER", "position": 7, "configs": [{ "type": "AMOUNT_OF_WATER", "value": 180 }] },
+    { "step": "BREW", "position": 8, "configs": [{ "type": "DURATION", "value": 60 }] }
+  ]
+}

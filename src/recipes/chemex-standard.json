@@ -1,0 +1,18 @@
+{
+  "name": "Standard Chemex",
+  "method": "CHEMEX",
+  "beans": 30,
+  "water": 500,
+  "temperature": 94,
+  "grind": "MEDIUM_COARSE",
+  "steps": [
+    { "step": "GRIND_COFFEE", "position": 1, "configs": [] },
+    { "step": "RINSE_FILTER", "position": 2, "configs": [] },
+    { "step": "ADD_COFFEE_AND_WATER", "position": 3, "configs": [{ "type": "AMOUNT_OF_WATER", "value": 60 }] },
+    { "step": "BLOOM", "position": 4, "configs": [{ "type": "DURATION", "value": 45 }] },
+    { "step": "ADD_WATER", "position": 5, "configs": [{ "type": "AMOUNT_OF_WATER", "value": 200 }] },
+    { "step": "BREW", "position": 6, "configs": [{ "type": "DURATION", "value": 60 }] },
+    { "step": "ADD_WATER", "position": 7, "configs": [{ "type": "AMOUNT_OF_WATER", "value": 240 }] },
+    { "step": "BREW", "position": 8, "configs": [{ "type": "DURATION", "value": 120 }] }
+  ]
+}

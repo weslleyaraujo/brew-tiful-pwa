@@ -1,0 +1,18 @@
+{
+  "name": "WAC 2016 Filip Kucharczyk",
+  "method": "AEROPRESS",
+  "beans": 18,
+  "water": 150,
+  "temperature": 92,
+  "grind": "MEDIUM_FINE",
+  "steps": [
+    { "step": "GRIND_COFFEE", "position": 1, "configs": [] },
+    { "step": "RINSE_FILTER", "position": 2, "configs": [] },
+    { "step": "ADD_COFFEE_AND_WATER", "position": 3, "configs": [{ "type": "AMOUNT_OF_WATER", "value": 150 }] },
+    { "step": "STIR", "position": 4, "configs": [{ "type": "TIMES", "value": 1 }] },
+    { "step": "BREW", "position": 5, "configs": [{ "type": "DURATION", "value": 30 }] },
+    { "step": "WIGGLE", "position": 6, "configs": [{ "type": "TIMES", "value": 1 }] },
+    { "step": "PLUNGE", "position": 7, "configs": [{ "type": "DURATION", "value": 15 }] },
+    { "step": "ADD_WATER", "position": 8, "configs": [{ "type": "AMOUNT_OF_WATER", "value": 110 }] }
+  ]
+}

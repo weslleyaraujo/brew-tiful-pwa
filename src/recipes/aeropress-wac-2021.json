@@ -1,0 +1,18 @@
+{
+  "name": "WAC 2021 Champion Tuomas Merikanto",
+  "method": "AEROPRESS",
+  "beans": 18,
+  "water": 200,
+  "temperature": 80,
+  "grind": "MEDIUM_FINE",
+  "steps": [
+    { "step": "GRIND_COFFEE", "position": 1, "configs": [] },
+    { "step": "RINSE_FILTER", "position": 2, "configs": [] },
+    { "step": "ADD_COFFEE_AND_WATER", "position": 3, "configs": [{ "type": "AMOUNT_OF_WATER", "value": 50 }] },
+    { "step": "STIR", "position": 4, "configs": [{ "type": "TIMES", "value": 3 }] },
+    { "step": "ADD_WATER", "position": 5, "configs": [{ "type": "AMOUNT_OF_WATER", "value": 150 }] },
+    { "step": "STIR", "position": 6, "configs": [{ "type": "TIMES", "value": 3 }] },
+    { "step": "BREW", "position": 7, "configs": [{ "type": "DURATION", "value": 40 }] },
+    { "step": "PLUNGE", "position": 8, "configs": [{ "type": "DURATION", "value": 20 }] }
+  ]
+}
