@@ -1,21 +1,50 @@
 const METHOD_ICONS: Record<string, string> = {
-  // Triangle bottom-right — square with \ cut
-  V60:           'M0 0 L24 24 L24 0 Z',
+  // Nested V-shapes — pour-over ridges
+  V60: [
+    'M6 6 L12 18 L18 6',
+    'M8 8 L12 15 L16 8',
+    'M10 10 L12 12 L14 10',
+  ].join(' '),
 
-  // Rectangle left half — square with | cut
-  AEROPRESS:     'M0 0 L12 0 L12 24 L0 24 Z',
+  // Parallel horizontals descending — plunger press
+  AEROPRESS: [
+    'M4 6 L20 6',
+    'M4 12 L20 12',
+    'M4 18 L20 18',
+    'M8 4 L8 20',
+    'M16 4 L16 20',
+  ].join(' '),
 
-  // Triangle top-right — square with / cut
-  CHEMEX:        'M24 0 L0 24 L24 24 Z',
+  // X with horizontals — hourglass + collar
+  CHEMEX: [
+    'M4 6 L12 12 L20 6',
+    'M4 18 L12 12 L20 18',
+    'M8 10 L16 10',
+    'M8 14 L16 14',
+  ].join(' '),
 
-  // Two opposing triangles — X cut
-  FRENCH_PRESS:  'M0 0 L12 12 L0 24 Z M24 0 L12 12 L24 24 Z',
+  // Vertical slats — plunger mesh
+  FRENCH_PRESS: [
+    'M6 4 L6 20',
+    'M9 4 L9 20',
+    'M12 4 L12 20',
+    'M15 4 L15 20',
+    'M18 4 L18 20',
+  ].join(' '),
 
-  // Twin pillars — two vertical thirds
-  MOKA_POT:      'M0 0 L8 0 L8 24 L0 24 Z M16 0 L24 0 L24 24 L16 24 Z',
+  // Stepped diagonal — chambers
+  MOKA_POT: [
+    'M4 6 L10 6 L10 12 L4 12 Z',
+    'M10 12 L18 12 L18 18 L10 18 Z',
+    'M4 18 L20 18',
+  ].join(' '),
 
-  // Corner L — top-left square cut
-  STAGG:         'M0 0 L16 0 L16 8 L8 8 L8 24 L0 24 Z',
+  // Zigzag spout — bent kettle
+  STAGG: [
+    'M6 4 L14 4 L14 10',
+    'M10 10 L14 10 L18 14 L18 20',
+    'M6 14 L20 14',
+  ].join(' '),
 }
 
 export function MethodIcon({ method, size = 28 }: { method: string; size?: number }) {
@@ -26,9 +55,8 @@ export function MethodIcon({ method, size = 28 }: { method: string; size?: numbe
       viewBox="0 0 24 24"
       fill="none"
       stroke="var(--color-amber)"
-      strokeWidth="2"
+      strokeWidth="1.8"
       strokeLinecap="round"
-      strokeLinejoin="round"
     >
       <path d={METHOD_ICONS[method] ?? METHOD_ICONS.V60} />
     </svg>
