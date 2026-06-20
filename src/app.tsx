@@ -46,7 +46,7 @@ export function App() {
   // Full-screen views (method, recipe, brew)
   if (view.type !== "tabs") {
     return (
-      <div class="flex flex-col h-dvh bg-[var(--bg-app)]">
+      <div class="flex flex-col h-dvh bg-[var(--bg-app)] animate-fade-in">
         {view.type === "method" && <MethodScreen />}
         {view.type === "recipe" && <RecipeScreen />}
         {view.type === "brew" && <BrewScreen />}
@@ -59,7 +59,7 @@ export function App() {
   // Tab-based views
   return (
     <div class="flex flex-col h-dvh bg-[var(--bg-app)]">
-      <main class="flex-1 overflow-y-auto">
+      <main class="flex-1 overflow-y-auto animate-fade-in">
         {activeTab.value === "home" && <HomeScreen />}
         {activeTab.value === "history" && <BrewHistoryScreen />}
         {activeTab.value === "settings" && <SettingsScreen />}

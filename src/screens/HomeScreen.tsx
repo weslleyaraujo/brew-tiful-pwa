@@ -1,9 +1,9 @@
-import { recipesByMethod, recentBrews } from '../store/recipes'
+import { recipesByMethod, recentBrews, brews, favorites, favoriteIds, toggleFavorite } from '../store/recipes'
 import { navigateTo } from '../store/ui'
-import { formatMethod } from '../lib/format'
+import { formatMethod, formatMethodDescription } from '../lib/format'
 import { MethodIcon } from '../lib/method-colors'
-import { Play, Clock } from 'lucide-preact'
-import { useMemo } from 'preact/hooks'
+import { Play, Clock, Heart, Flame } from 'lucide-preact'
+import { useMemo, useState, useEffect } from 'preact/hooks'
 import type { Method } from '../db/types'
 
 function useGreeting() {
@@ -17,23 +17,82 @@ function useGreeting() {
 
 const ALL_METHODS: Method[] = ['V60', 'AEROPRESS', 'CHEMEX', 'FRENCH_PRESS', 'MOKA_POT', 'STAGG']
 
+const COFFEE_TIPS = [
+  'V60 filters should be rinsed with hot water to remove paper taste and preheat the dripper.',
+  'Aeropress brews are typically 1:15 to 1:17 ratio.',
+  'Chemex filters are 20-30% thicker than other pour-over filters.',
+  'French Press steep time should be at least 4 minutes for full extraction.',
+  'Moka Pot uses steam pressure — don\'t tamp the coffee.',
+  'Stagg dripper\'s flat bed promotes even extraction with fewer pours.',
+  'Water temperature between 90-96°C is ideal for most brews.',
+  'Freshly ground coffee makes the biggest difference in taste.',
+  'Rinse your paper filters — it removes paper taste and preheats the dripper.',
+  'For iced coffee, use 40% of your water as ice directly in the server.',
+]
+
+function getWeeklyStats() {
+  const now = new Date()
+  const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000)
+  const weekBrews = brews.value.filter(b => b.brewedAt >= weekAgo)
+  if (weekBrews.length === 0) return null
+
+  const methodCounts = new Map<string, number>()
+  for (const b of weekBrews) methodCounts.set(b.method, (methodCounts.get(b.method) ?? 0) + 1)
+  let topMethod = ''
+  let topCount = 0
+  for (const [m, c] of methodCounts) { if (c > topCount) { topMethod = m; topCount = c } }
+
+  return { count: weekBrews.length, topMethod }
+}
+
+function getDailyTip() {
+  const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / 86400000)
+  return COFFEE_TIPS[dayOfYear % COFFEE_TIPS.length]
+}
+
 export function HomeScreen() {
   const greeting = useGreeting()
   const lastBrew = recentBrews.value[0]
+  const weeklyStats = useMemo(() => getWeeklyStats(), [])
+  const dailyTip = useMemo(() => getDailyTip(), [])
 
   return (
-    <div class="flex flex-col gap-6 p-4 pt-[calc(16px+var(--safe-top))] pb-24 relative">
+    <div class="flex flex-col gap-6 p-4 pt-[calc(16px+var(--safe-top))] pb-24 relative overflow-y-auto">
       {/* Warm ambient */}
       <div class="absolute inset-0 pointer-events-none"
-        style={{ background: 'linear-gradient(180deg, rgba(217,119,6,0.03) 0%, transparent 40%)' }} />
+        style={{ background: 'linear-gradient(180deg, rgba(217,119,6,0.04) 0%, transparent 40%)' }} />
 
-      {/* Greeting */}
+      {/* Greeting + Favorites */}
       <div class="relative flex items-start justify-between">
         <div class="flex flex-col gap-0.5">
           <h1 class="text-largetitle-bold font-display">{greeting.title}</h1>
           <p class="text-body text-[var(--text-secondary)]">{greeting.subtitle}</p>
         </div>
+        <button
+          onClick={() => navigateTo({ type: 'history' })}
+          class="p-2 rounded-xl text-[var(--text-secondary)] active:scale-90 transition-transform"
+        >
+          <Heart
+            size={20}
+            strokeWidth={2}
+            class={favoriteIds.value.size > 0 ? 'text-[var(--color-red)] fill-[var(--color-red)]' : ''}
+          />
+        </button>
       </div>
+
+      {/* Quick stats (if brewed this week) */}
+      {weeklyStats && (
+        <div class="relative">
+          <div class="flex items-center gap-3 text-caption1 text-[var(--text-secondary)] bg-[var(--bg-card)]/50 rounded-xl px-3 py-2">
+            <span class="flex items-center gap-1">
+              <Flame size={12} class="text-[var(--color-amber)]" />
+              {weeklyStats.count} brew{weeklyStats.count !== 1 ? 's' : ''}
+            </span>
+            <span>·</span>
+            <span>Most used: {formatMethod(weeklyStats.topMethod)}</span>
+          </div>
+        </div>
+      )}
 
       {/* Last brew — quick action */}
       {lastBrew && (
@@ -43,7 +102,8 @@ export function HomeScreen() {
             class="w-full text-left bg-[var(--bg-card)] rounded-2xl border border-[var(--color-separator)] p-4 active:scale-[0.98] transition-transform"
           >
             <div class="flex items-center gap-3">
-              <div class="w-10 h-10 rounded-full bg-[var(--color-amber)]/10 flex items-center justify-center flex-shrink-0">
+              <div class="w-10 h-10 rounded-full bg-[var(--color-amber)]/10 flex items-center justify-center flex-shrink-0 animate-[glow-pulse_3s_ease-in-out_infinite]"
+                style={{ boxShadow: '0 0 12px rgba(245,158,11,0.15)' }}>
                 <Play size={18} strokeWidth={2.5} class="text-[var(--color-amber)] ml-0.5" />
               </div>
               <div class="flex-1 min-w-0">
@@ -70,7 +130,8 @@ export function HomeScreen() {
         <h2 class="text-caption1 text-[var(--text-secondary)] uppercase tracking-wider">Brew Methods</h2>
         <div class="grid grid-cols-2 gap-2">
           {ALL_METHODS.map((method, idx) => {
-            const recipeCount = recipesByMethod.value.get(method)?.length ?? 0
+            const methodRecipes = recipesByMethod.value.get(method) ?? []
+            const recipeCount = methodRecipes.length
             return (
               <button
                 key={method}
@@ -84,13 +145,19 @@ export function HomeScreen() {
                 <MethodIcon method={method} size={28} />
                 <span class="text-headline mt-1">{formatMethod(method)}</span>
                 <span class="text-caption1 text-[var(--text-tertiary)]">
-                  {recipeCount} recipe{recipeCount !== 1 ? 's' : ''}
+                  {formatMethodDescription(method)}
                 </span>
               </button>
             )
           })}
         </div>
       </section>
+
+      {/* Daily coffee tip */}
+      <div class="relative bg-[var(--bg-card)]/50 rounded-xl px-4 py-3 border border-[var(--color-separator)]/50">
+        <p class="text-caption2 text-[var(--text-tertiary)] uppercase tracking-wider mb-1">Coffee Tip</p>
+        <p class="text-caption1 text-[var(--text-secondary)]">{dailyTip}</p>
+      </div>
 
     </div>
   )

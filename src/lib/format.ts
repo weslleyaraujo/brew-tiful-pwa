@@ -117,6 +117,21 @@ export function formatMethod(method: string): string {
   return METHOD_LABELS[method] ?? method
 }
 
+// ── Method descriptions ──
+
+const METHOD_DESCRIPTIONS: Record<string, string> = {
+  V60: 'Pour-over dripper',
+  AEROPRESS: 'Immersion & pressure',
+  CHEMEX: 'Glass pour-over',
+  FRENCH_PRESS: 'Full-immersion',
+  MOKA_POT: 'Stovetop espresso',
+  STAGG: 'Flat-bed pour-over',
+}
+
+export function formatMethodDescription(method: string): string {
+  return METHOD_DESCRIPTIONS[method] ?? ''
+}
+
 // ── Step title formatter ──
 
 const STEP_TITLES: Record<string, string> = {

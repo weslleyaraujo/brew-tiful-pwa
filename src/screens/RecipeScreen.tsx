@@ -112,7 +112,7 @@ export function RecipeScreen() {
     <div class="flex flex-col h-full relative">
       {/* Warm ambient */}
       <div class="absolute inset-0 pointer-events-none"
-        style={{ background: 'linear-gradient(180deg, rgba(217,119,6,0.03) 0%, transparent 50%)' }} />
+        style={{ background: 'linear-gradient(180deg, rgba(217,119,6,0.04) 0%, transparent 50%)' }} />
 
       {/* ── Top bar ── */}
       <div class="flex items-center justify-between px-4 pt-[calc(16px+var(--safe-top))] pb-1">
