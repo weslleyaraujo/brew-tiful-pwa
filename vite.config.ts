@@ -4,6 +4,7 @@ import tailwindcss from '@tailwindcss/vite'
 import { VitePWA } from 'vite-plugin-pwa'
 
 export default defineConfig({
+  base: '/brew-tiful-pwa/',
   plugins: [
     preact({
       prefreshEnabled: true,
@@ -20,7 +21,7 @@ export default defineConfig({
         background_color: '#ffffff',
         display: 'standalone',
         orientation: 'portrait-primary',
-        start_url: '/',
+        start_url: '/brew-tiful-pwa/',
         icons: [
           {
             src: 'icon-192.svg',
@@ -44,14 +45,14 @@ export default defineConfig({
             name: 'Start Brew',
             short_name: 'Brew',
             description: 'Quick-start a brew',
-            url: '/?action=brew',
+            url: '/brew-tiful-pwa/?action=brew',
             icons: [{ src: 'icon-192.svg', sizes: '96x96' }],
           },
           {
             name: 'View Recipes',
             short_name: 'Recipes',
             description: 'Browse recipes',
-            url: '/?action=recipes',
+            url: '/brew-tiful-pwa/?action=recipes',
             icons: [{ src: 'icon-192.svg', sizes: '96x96' }],
           },
         ],
