@@ -1,7 +1,7 @@
 import { recentBrews, brews, favoriteIds, lastRecipeByMethod } from '../store/recipes'
 import { navigateTo } from '../store/ui'
 import { formatMethod, formatMethodDescription } from '../lib/format'
-import { MethodIcon } from '../lib/method-colors'
+
 import { Play, Clock, Heart, Flame } from 'lucide-preact'
 import { useMemo, useRef, useCallback } from 'preact/hooks'
 import type { Method } from '../db/types'
@@ -161,7 +161,6 @@ export function HomeScreen() {
                   animationFillMode: 'backwards',
                 }}
               >
-                <MethodIcon method={method} size={28} />
                 <span class="text-headline mt-1">{formatMethod(method)}</span>
                 <span class="text-caption1 text-[var(--text-tertiary)]">
                   {formatMethodDescription(method)}

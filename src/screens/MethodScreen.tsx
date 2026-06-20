@@ -3,7 +3,7 @@ import { recipesByMethod } from '../store/recipes'
 import { navigateTo, goBack, activeView } from '../store/ui'
 import { formatMethod, formatWeight, formatTemperature, formatMethodDescription } from '../lib/format'
 import { calculateRatio } from '../lib/conversion'
-import { MethodIcon } from '../lib/method-colors'
+
 import { ArrowLeft, Clock, Search, X } from 'lucide-preact'
 import { EmptyState } from '../components/ui/EmptyState'
 
@@ -109,9 +109,7 @@ export function MethodScreen() {
 
       {/* Hero area */}
       <div class="relative px-4 pb-4 flex items-center gap-4">
-        <div class="w-12 h-12 rounded-2xl bg-[var(--bg-card)] border border-[var(--color-separator)] flex items-center justify-center flex-shrink-0">
-          <MethodIcon method={method} size={32} />
-        </div>
+
         <div class="flex-1 min-w-0">
           <h1 class="text-title1-bold font-display">{formatMethod(method)}</h1>
           <p class="text-caption1 text-[var(--text-secondary)]">{formatMethodDescription(method)}</p>
@@ -205,9 +203,7 @@ export function MethodScreen() {
                   class="text-left bg-[var(--bg-card)] rounded-2xl border border-[var(--color-separator)] px-4 py-3.5 active:scale-[0.98] transition-transform animate-scale-in flex items-center gap-3"
                   style={{ animationDelay: `${idx * 40}ms`, animationFillMode: 'backwards' }}
                 >
-                  <div class="w-8 h-8 rounded-lg bg-[var(--bg-tertiary)]/50 flex items-center justify-center flex-shrink-0">
-                    <MethodIcon method={method} size={18} />
-                  </div>
+
 
                   <div class="flex-1 min-w-0">
                     <p class="text-body-bold truncate">{recipe.name}</p>

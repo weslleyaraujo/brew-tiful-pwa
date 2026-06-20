@@ -3,7 +3,7 @@ import { favorites, getRecipeById, toggleFavorite, favoriteIds } from '../store/
 import { navigateTo, goBack } from '../store/ui'
 import { formatMethod, formatWeight, formatTemperature } from '../lib/format'
 import { calculateRatio } from '../lib/conversion'
-import { MethodIcon } from '../lib/method-colors'
+
 import { EmptyState } from '../components/ui/EmptyState'
 import { ArrowLeft, Heart, X, Clock } from 'lucide-preact'
 
@@ -93,7 +93,7 @@ export function FavoritesScreen() {
             {grouped.map(([method, items]) => (
               <section key={method}>
                 <div class="flex items-center gap-2 mb-3">
-                  <MethodIcon method={method} size={16} />
+
                   <h2 class="text-body text-[var(--text-secondary)] font-medium">{formatMethod(method)}</h2>
                   <span class="text-caption2 text-[var(--text-tertiary)]">{items.length}</span>
                 </div>
@@ -115,9 +115,7 @@ export function FavoritesScreen() {
                           class="w-full text-left bg-[var(--bg-card)] rounded-2xl border border-[var(--color-separator)] px-4 py-3.5 active:scale-[0.98] transition-transform flex items-center gap-3"
                         >
                           {/* Method icon */}
-                          <div class="w-8 h-8 rounded-lg bg-[var(--bg-tertiary)]/50 flex items-center justify-center flex-shrink-0">
-                            <MethodIcon method={recipe.method} size={18} />
-                          </div>
+
 
                           {/* Info */}
                           <div class="flex-1 min-w-0">
