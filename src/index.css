@@ -92,11 +92,15 @@
     touch-action: manipulation;
   }
 
+  .dark * {
+    -webkit-font-smoothing: antialiased;
+  }
+
   html {
     font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto,
       'Helvetica Neue', Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: auto;
+    -moz-osx-font-smoothing: auto;
     background-color: var(--bg-app);
     color: var(--text-primary);
     height: 100%;
@@ -134,12 +138,14 @@
     font-weight: 400;
     line-height: 41px;
     letter-spacing: -0.03em;
+    text-rendering: optimizeLegibility;
   }
   .text-largetitle-bold {
     font-size: 34px;
     font-weight: 700;
     line-height: 41px;
     letter-spacing: -0.03em;
+    text-rendering: optimizeLegibility;
   }
 
   .text-title1 {
@@ -147,12 +153,14 @@
     font-weight: 400;
     line-height: 34px;
     letter-spacing: -0.03em;
+    text-rendering: optimizeLegibility;
   }
   .text-title1-bold {
     font-size: 28px;
     font-weight: 700;
     line-height: 34px;
     letter-spacing: -0.03em;
+    text-rendering: optimizeLegibility;
   }
 
   .text-title2 {
@@ -160,12 +168,14 @@
     font-weight: 400;
     line-height: 28px;
     letter-spacing: -0.03em;
+    text-rendering: optimizeLegibility;
   }
   .text-title2-bold {
     font-size: 22px;
     font-weight: 700;
     line-height: 28px;
     letter-spacing: -0.03em;
+    text-rendering: optimizeLegibility;
   }
 
   .text-title3 {
@@ -173,12 +183,14 @@
     font-weight: 400;
     line-height: 25px;
     letter-spacing: -0.03em;
+    text-rendering: optimizeLegibility;
   }
   .text-title3-bold {
     font-size: 20px;
     font-weight: 600;
     line-height: 25px;
     letter-spacing: -0.03em;
+    text-rendering: optimizeLegibility;
   }
 
   .text-headline {
@@ -345,6 +357,17 @@
 
 .animate-wave-morph-slow {
   animation: wave-morph-slow 9s ease-in-out infinite;
+}
+
+@keyframes wobble {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-3deg); }
+  75% { transform: rotate(3deg); }
+}
+
+@keyframes float-up {
+  0% { transform: translateY(0); opacity: 0.4; }
+  100% { transform: translateY(-12px); opacity: 0; }
 }
 
 /* ── Scrollbar ──────────────────────────────────────────────── */

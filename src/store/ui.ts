@@ -11,6 +11,7 @@ export const activeTab = signal<Tab>('home')
 export interface MethodView { type: 'method'; method: string }
 export interface RecipeView { type: 'recipe'; recipeId: string }
 export interface BrewView { type: 'brew'; recipeId: string }
+export interface BrewCompleteView { type: 'brew-complete'; recipeId: string; brewId: string }
 export interface HistoryView { type: 'history' }
 
 export type ViewState = 
@@ -18,6 +19,7 @@ export type ViewState =
   | MethodView
   | RecipeView
   | BrewView
+  | BrewCompleteView
   | HistoryView
 
 export const activeView = signal<ViewState>({ type: 'tabs' })

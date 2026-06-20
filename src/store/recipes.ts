@@ -134,4 +134,26 @@ export function addBrew(brew: Omit<BrewRecord, 'id' | 'brewedAt'>) {
   }
   brews.value = [record, ...brews.value]
   saveBrews(brews.value)
+  return record
+}
+
+export function updateBrew(id: string, updates: Partial<Pick<BrewRecord, 'rating' | 'notes'>>) {
+  const list = [...brews.value]
+  const idx = list.findIndex((b) => b.id === id)
+  if (idx >= 0) {
+    list[idx] = { ...list[idx], ...updates }
+    brews.value = list
+    saveBrews(brews.value)
+  }
+}
+
+export function deleteBrew(id: string) {
+  brews.value = brews.value.filter((b) => b.id !== id)
+  saveBrews(brews.value)
+}
+
+export function getBrewsForRecipe(recipeId: string): BrewRecord[] {
+  return brews.value
+    .filter((b) => b.recipeId === recipeId)
+    .sort((a, b) => b.brewedAt.getTime() - a.brewedAt.getTime())
 }

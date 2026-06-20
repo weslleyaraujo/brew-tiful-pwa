@@ -45,6 +45,11 @@ export function setAutoTimersEnabled(enabled: boolean) { autoTimersEnabled.value
 export const notificationSoundsEnabled = signal<boolean>(loadPref('notificationSoundsEnabled', true))
 export function setNotificationSoundsEnabled(enabled: boolean) { notificationSoundsEnabled.value = enabled; savePref('notificationSoundsEnabled', enabled) }
 
+// ── Brew tutorial ──
+
+export const brewTutorialSeen = signal<boolean>(loadPref('brewTutorialSeen', false))
+export function markBrewTutorialSeen() { brewTutorialSeen.value = true; savePref('brewTutorialSeen', true) }
+
 // ── Init ──
 
 export function initPrefs() {

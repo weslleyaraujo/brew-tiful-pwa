@@ -1,14 +1,15 @@
 import { useState, useRef, useEffect, useCallback } from 'preact/hooks'
 import { X, Play, Pause, Droplets } from 'lucide-preact'
 import { getRecipeById, getAdjustment, addBrew } from '../store/recipes'
-import { goBack, activeView } from '../store/ui'
+import { goBack, navigateTo, activeView } from '../store/ui'
 import { formatWeight, formatDuration, formatStepTitle, formatGrind } from '../lib/format'
 import { calculateRatio } from '../lib/conversion'
 import type { StepData, Recipe } from '../db/types'
 import { lightTap, mediumTap, warningVibrate } from '../lib/haptics'
 import { playDoneSound } from '../lib/sound'
-import { autoTimersEnabled } from '../store/prefs'
+import { autoTimersEnabled, brewTutorialSeen } from '../store/prefs'
 import { TimerRing } from '../components/TimerRing'
+import { BrewTutorial } from '../components/BrewTutorial'
 
 // ── Helpers ──
 
@@ -84,6 +85,14 @@ export function BrewScreen() {
   const handleNextRef = useRef<() => void>(() => {})
   const timerStateRef = useRef(timerState)
   timerStateRef.current = timerState
+  const [showTutorial, setShowTutorial] = useState(false)
+
+  useEffect(() => {
+    if (!brewTutorialSeen.value) {
+      const t = setTimeout(() => setShowTutorial(true), 800)
+      return () => clearTimeout(t)
+    }
+  }, [])
 
   // Auto-start timer
   useEffect(() => {
@@ -159,7 +168,7 @@ export function BrewScreen() {
         water: displayWater,
         asNumber: true,
       })
-      addBrew({
+      const record = addBrew({
         recipeId,
         recipeName: recipe.name,
         method: recipe.method,
@@ -168,7 +177,7 @@ export function BrewScreen() {
         ratio,
         ice: adj?.ice ?? null,
       })
-      goBack()
+      navigateTo({ type: 'brew-complete', recipeId, brewId: record.id })
     } else {
       setCurrentStep((prev) => prev + 1)
       lightTap()
@@ -293,9 +302,9 @@ export function BrewScreen() {
 
         <div class="flex justify-end">
           {totalWaterPoured > 0 && (
-            <div class="bg-[var(--color-amber)] px-3 py-1.5 rounded-full flex items-center gap-1.5 animate-fade-in whitespace-nowrap shadow-sm">
-              <Droplets size={11} strokeWidth={2.5} class="text-white flex-shrink-0" />
-              <span class="text-caption1-bold font-mono text-white">
+            <div class="bg-[var(--color-amber)] px-4 py-2 rounded-full flex items-center gap-2 animate-fade-in whitespace-nowrap shadow-md ring-1 ring-[var(--color-amber)]/30">
+              <Droplets size={14} strokeWidth={2.5} class="text-white flex-shrink-0" />
+              <span class="text-body-bold font-mono text-white">
                 {formatWeight(totalWaterPoured, 'volume')}
               </span>
             </div>
@@ -429,6 +438,8 @@ export function BrewScreen() {
           </button>
         </div>
       )}
+
+      {showTutorial && <BrewTutorial onDismiss={() => setShowTutorial(false)} />}
     </div>
   )
 }

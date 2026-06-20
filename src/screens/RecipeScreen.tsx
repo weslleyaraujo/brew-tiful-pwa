@@ -148,58 +148,50 @@ export function RecipeScreen() {
 
       {/* ── Hero stats card ── */}
       <div class="px-4 pb-6">
-        <div class="bg-[var(--bg-card)] rounded-2xl border border-[var(--color-separator)] p-4 flex flex-col gap-3">
-          {/* Ratio — big */}
-          <div class="flex items-center gap-3">
-            <span class="text-title1 font-mono text-[var(--color-amber)]">{ratio}</span>
-            <span class="text-caption1 text-[var(--text-tertiary)]">coffee ratio</span>
+        <div class="bg-[var(--bg-card)] rounded-2xl border border-[var(--color-separator)] p-5 flex flex-col gap-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.5)]">
+          {/* Beans & Water — big, prominent */}
+          <div class="flex items-center gap-6">
+            <div class="flex items-baseline gap-1.5">
+              <Coffee size={16} strokeWidth={1.5} class="text-[var(--text-tertiary)]" />
+              <span class="text-title1 font-display text-[var(--text-primary)]">{displayBeans}</span>
+              <span class="text-caption1 text-[var(--text-tertiary)]">g</span>
+            </div>
+            <div class="text-caption1 text-[var(--text-tertiary)]">Beans</div>
+            <div class="flex-1" />
+            <div class="flex items-baseline gap-1.5">
+              <span class="text-title1 font-display text-[var(--text-primary)]">{displayWater}</span>
+              <span class="text-caption1 text-[var(--text-tertiary)]">ml</span>
+            </div>
+            <div class="text-caption1 text-[var(--text-tertiary)]">Water</div>
           </div>
 
-          {/* Divider */}
-          <div class="h-px bg-[var(--color-separator)]" />
-
-          {/* Serving + temp row */}
-          <div class="flex items-center gap-4">
-            {/* Serving size */}
-            <div class="flex items-center gap-1.5">
-              <Coffee size={14} strokeWidth={1.5} class="text-[var(--text-tertiary)] flex-shrink-0" />
-              <span class="text-body font-mono">{formatWeight(displayBeans, 'mass')}</span>
-              <span class="text-caption2 text-[var(--text-tertiary)]">/</span>
-              <span class="text-body font-mono">{formatWeight(displayWater, 'volume')}</span>
-            </div>
-
-            {/* Divider dot */}
-            <span class="text-[var(--color-separator)]">·</span>
-
-            {/* Temperature */}
-            <div class="flex items-center gap-1">
-              <span class="text-body font-mono">{formatTemperature(recipe.temperature)}</span>
-              <span class="text-caption2 text-[var(--text-tertiary)]">water</span>
-            </div>
+          {/* Secondary row: ratio, temp, grind */}
+          <div class="flex items-center flex-wrap gap-x-4 gap-y-1.5">
+            <span class="text-callout font-mono text-[var(--color-amber)]">{ratio}</span>
+            <span class="text-caption2 text-[var(--text-tertiary)]">·</span>
+            <span class="text-callout font-mono text-[var(--text-secondary)]">{formatTemperature(recipe.temperature)}</span>
+            <span class="text-caption2 text-[var(--text-tertiary)]">·</span>
+            <span class="text-callout text-[var(--text-secondary)]">{formatGrind(recipe.grind)}</span>
           </div>
 
-          {/* Grind + time row */}
-          <div class="flex items-center gap-4">
-            {/* Grind bar */}
-            <div class="flex items-center gap-2">
-              <span class="text-caption2 text-[var(--text-tertiary)] min-w-0">{formatGrind(recipe.grind)}</span>
-              <span class="flex gap-px">
-                {[1, 2, 3, 4, 5].map(i => (
-                  <span key={i} class={`w-1.5 h-3 rounded-full ${i <= grind ? 'bg-[var(--color-amber)]/50' : 'bg-[var(--color-separator)]'}`} />
-                ))}
-              </span>
+          {/* Grind indicator */}
+          <div class="flex items-center gap-2">
+            <span class="text-caption2 text-[var(--text-tertiary)]">Fine</span>
+            <div class="flex gap-1 flex-1">
+              {[1, 2, 3, 4, 5].map(i => (
+                <span key={i} class={`flex-1 h-1 rounded-full ${i <= grind ? 'bg-[var(--color-amber)]/50' : 'bg-[var(--color-separator)]'}`} />
+              ))}
             </div>
-
-            {totalTime && (
-              <>
-                <span class="text-[var(--color-separator)]">·</span>
-                <div class="flex items-center gap-1 text-caption1 text-[var(--text-tertiary)]">
-                  <Clock size={11} />
-                  <span>~{totalTime}</span>
-                </div>
-              </>
-            )}
+            <span class="text-caption2 text-[var(--text-tertiary)]">Coarse</span>
           </div>
+
+          {/* Total time */}
+          {totalTime && (
+            <div class="flex items-center gap-2 text-caption1 text-[var(--text-tertiary)]">
+              <Clock size={13} />
+              <span>~{totalTime} total brew time</span>
+            </div>
+          )}
         </div>
       </div>
 

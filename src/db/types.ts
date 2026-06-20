@@ -74,6 +74,8 @@ export interface BrewRecord {
   beans: number
   water: number
   ratio: number
+  rating?: number
+  notes?: string
   ice?: number | null
   brewedAt: Date
 }
