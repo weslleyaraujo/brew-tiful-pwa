@@ -7,25 +7,23 @@ const STEPS = [
     icon: Droplets,
     title: 'Water target',
     description: 'This shows the target weight on your scale. Pour until you hit this number.',
-    position: 'top-right',
   },
   {
     icon: ChevronsUpDown,
     title: 'Navigate steps',
     description: 'Swipe up/down or tap "Next Step" to advance through the recipe.',
-    position: 'center',
   },
   {
     icon: Timer,
     title: 'Auto-timers',
-    description: 'Timers auto-start. Tap to pause, tap again to resume.',
-    position: 'bottom-right',
+    description: 'Timers auto-start when you reach a timed step. Tap to pause or resume.',
   },
 ]
 
 export function BrewTutorial({ onDismiss }: { onDismiss: () => void }) {
   const [step, setStep] = useState(0)
   const current = STEPS[step]
+  const Icon = current.icon
 
   function handleNext() {
     if (step < STEPS.length - 1) {
@@ -36,61 +34,50 @@ export function BrewTutorial({ onDismiss }: { onDismiss: () => void }) {
     }
   }
 
-  const Icon = current.icon
-
   return (
-    <div class="fixed inset-0 z-50 bg-black/70 animate-fade-in" onClick={handleNext}>
-      {/* Highlight spot */}
-      {current.position === 'top-right' && (
-        <div class="absolute top-[calc(80px+var(--safe-top))] right-4 w-32 h-9 rounded-full ring-2 ring-[var(--color-amber)] ring-offset-2 ring-offset-transparent animate-glow-pulse" />
-      )}
-      {current.position === 'center' && (
-        <div class="absolute inset-x-0 top-[50%] -translate-y-1/2 h-20 ring-2 ring-[var(--color-amber)] ring-offset-2 ring-offset-transparent animate-glow-pulse mx-4 rounded-2xl" />
-      )}
-      {current.position === 'bottom-right' && (
-        <div class="absolute right-4 bottom-[calc(100px+var(--safe-bottom))] w-16 h-16 rounded-full ring-2 ring-[var(--color-amber)] ring-offset-2 ring-offset-transparent animate-glow-pulse" />
-      )}
+    <>
+      <div class="fixed inset-0 bg-black/50 z-40 animate-fade-in" onClick={onDismiss} />
 
-      {/* Coach mark card */}
-      <div
-        class="absolute left-4 right-4 bg-[var(--bg-elevated)] rounded-2xl p-5 shadow-lg animate-slide-up"
-        style={{
-          top: current.position === 'top-right'
-            ? 'calc(130px + var(--safe-top))'
-            : current.position === 'center'
-              ? 'calc(50% + 60px)'
-              : 'calc(100% - 220px - var(--safe-bottom))',
-        }}
-      >
-        <div class="flex items-start gap-3">
-          <div class="w-10 h-10 rounded-full bg-[var(--color-amber)]/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-            <Icon size={20} strokeWidth={1.5} class="text-[var(--color-amber)]" />
-          </div>
-          <div class="flex-1 min-w-0">
-            <h3 class="text-body-bold text-[var(--text-primary)]">{current.title}</h3>
-            <p class="text-caption1 text-[var(--text-secondary)] mt-1">{current.description}</p>
-          </div>
+      <div class="fixed bottom-0 left-0 right-0 z-50 bg-[var(--bg-app)] rounded-t-3xl animate-slide-up">
+        <div class="flex justify-center pt-3 pb-4">
+          <div class="w-9 h-1 rounded-full bg-[var(--text-tertiary)]/25" />
         </div>
 
-        <div class="flex items-center justify-between mt-4">
+        <div class="px-5 pb-8 flex flex-col items-center gap-4">
+          {/* Step dots */}
           <div class="flex gap-1.5">
             {STEPS.map((_, i) => (
               <div
                 key={i}
                 class={`w-1.5 h-1.5 rounded-full transition-all ${
-                  i === step ? 'bg-[var(--color-amber)]' : 'bg-[var(--bg-tertiary)]'
+                  i === step ? 'bg-[var(--color-amber)] w-4' : 'bg-[var(--bg-tertiary)]'
                 }`}
               />
             ))}
           </div>
+
+          {/* Icon */}
+          <div class="w-14 h-14 rounded-2xl bg-[var(--color-amber)]/10 flex items-center justify-center">
+            <Icon size={28} strokeWidth={1.5} class="text-[var(--color-amber)]" />
+          </div>
+
+          {/* Text */}
+          <div class="text-center">
+            <h3 class="text-title3-bold">{current.title}</h3>
+            <p class="text-body text-[var(--text-secondary)] mt-1 max-w-xs mx-auto">
+              {current.description}
+            </p>
+          </div>
+
+          {/* Button */}
           <button
             onClick={handleNext}
-            class="px-4 py-2 rounded-xl bg-[var(--color-caramel)] text-white text-caption1-bold active:scale-95 transition-transform"
+            class="mt-2 px-8 py-3 rounded-2xl bg-[var(--color-caramel)] text-white text-body-bold active:scale-95 transition-transform w-full max-w-xs"
           >
-            {step < STEPS.length - 1 ? 'Next' : 'Got it'}
+            {step < STEPS.length - 1 ? 'Next' : 'Start Brewing'}
           </button>
         </div>
       </div>
-    </div>
+    </>
   )
 }

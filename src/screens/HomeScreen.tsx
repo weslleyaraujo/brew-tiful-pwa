@@ -17,19 +17,6 @@ function useGreeting() {
 
 const ALL_METHODS: Method[] = ['V60', 'AEROPRESS', 'CHEMEX', 'FRENCH_PRESS', 'MOKA_POT', 'STAGG']
 
-const COFFEE_TIPS = [
-  'V60 filters should be rinsed with hot water to remove paper taste and preheat the dripper.',
-  'Aeropress brews are typically 1:15 to 1:17 ratio.',
-  'Chemex filters are 20-30% thicker than other pour-over filters.',
-  'French Press steep time should be at least 4 minutes for full extraction.',
-  'Moka Pot uses steam pressure — don\'t tamp the coffee.',
-  'Stagg dripper\'s flat bed promotes even extraction with fewer pours.',
-  'Water temperature between 90-96°C is ideal for most brews.',
-  'Freshly ground coffee makes the biggest difference in taste.',
-  'Rinse your paper filters — it removes paper taste and preheats the dripper.',
-  'For iced coffee, use 40% of your water as ice directly in the server.',
-]
-
 function getWeeklyStats() {
   const now = new Date()
   const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000)
@@ -45,16 +32,10 @@ function getWeeklyStats() {
   return { count: weekBrews.length, topMethod }
 }
 
-function getDailyTip() {
-  const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / 86400000)
-  return COFFEE_TIPS[dayOfYear % COFFEE_TIPS.length]
-}
-
 export function HomeScreen() {
   const greeting = useGreeting()
   const lastBrew = recentBrews.value[0]
   const weeklyStats = useMemo(() => getWeeklyStats(), [])
-  const dailyTip = useMemo(() => getDailyTip(), [])
   const longPressTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const isLongPress = useRef(false)
 
@@ -192,11 +173,6 @@ export function HomeScreen() {
       </section>
 
       {/* Daily coffee tip */}
-      <div class="relative bg-[var(--bg-card)]/50 rounded-xl px-4 py-3 border border-[var(--color-separator)]/50">
-        <p class="text-caption2 text-[var(--text-tertiary)] uppercase tracking-wider mb-1">Coffee Tip</p>
-        <p class="text-caption1 text-[var(--text-secondary)]">{dailyTip}</p>
-      </div>
-
     </div>
   )
 }

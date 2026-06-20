@@ -1,7 +1,7 @@
 import { useMemo } from 'preact/hooks'
 import { brews } from '../store/recipes'
 import { formatMethod } from '../lib/format'
-import { Flame } from 'lucide-preact'
+import { Flame, Coffee, TrendingUp, BarChart3, Clock } from 'lucide-preact'
 
 export function StatsContent() {
   const stats = useMemo(() => {
@@ -62,7 +62,8 @@ export function StatsContent() {
 
   if (!stats) {
     return (
-      <div class="flex flex-col items-center justify-center py-20 text-[var(--text-tertiary)]">
+      <div class="flex flex-col items-center justify-center py-20 gap-3 text-[var(--text-tertiary)]">
+        <Coffee size={40} strokeWidth={1} class="text-[var(--text-tertiary)]/30" />
         <p class="text-body">No brews yet</p>
         <p class="text-caption1">Complete your first brew to see stats</p>
       </div>
@@ -73,38 +74,26 @@ export function StatsContent() {
   const maxMethod = Math.max(...stats.methodCounts.values(), 1)
 
   return (
-    <div class="flex flex-col gap-6 px-4 pb-24">
+    <div class="flex flex-col gap-6 px-4 pb-24 pt-2">
       {/* Streak banner */}
       {stats.streak > 0 && (
         <div class="bg-[var(--bg-card)] rounded-2xl border border-[var(--color-separator)] p-4 flex items-center gap-3">
-          <div class="w-10 h-10 rounded-full bg-[var(--color-amber)]/10 flex items-center justify-center">
+          <div class="w-10 h-10 rounded-xl bg-[var(--color-amber)]/10 flex items-center justify-center flex-shrink-0">
             <Flame size={20} class="text-[var(--color-amber)]" />
           </div>
           <div>
-            <p class="text-body-bold">{stats.streak} day streak!</p>
-            <p class="text-caption1 text-[var(--text-secondary)]">Longest streak: {stats.longestStreak} days</p>
+            <p class="text-body-bold">{stats.streak} day streak</p>
+            <p class="text-caption1 text-[var(--text-secondary)]">Longest: {stats.longestStreak} days</p>
           </div>
         </div>
       )}
 
       {/* Stats cards */}
       <div class="grid grid-cols-2 gap-2">
-        <div class="bg-[var(--bg-card)] rounded-2xl border border-[var(--color-separator)] p-3 text-center">
-          <p class="text-title2 font-mono text-[var(--text-primary)]">{stats.totalBrews}</p>
-          <p class="text-caption2 text-[var(--text-tertiary)]">Total Brews</p>
-        </div>
-        <div class="bg-[var(--bg-card)] rounded-2xl border border-[var(--color-separator)] p-3 text-center">
-          <p class="text-title2 font-mono text-[var(--text-primary)]">{formatMethod(stats.topMethod)}</p>
-          <p class="text-caption2 text-[var(--text-tertiary)]">Top Method</p>
-        </div>
-        <div class="bg-[var(--bg-card)] rounded-2xl border border-[var(--color-separator)] p-3 text-center">
-          <p class="text-title2 font-mono text-[var(--text-primary)]">1:{stats.avgRatio.toFixed(1)}</p>
-          <p class="text-caption2 text-[var(--text-tertiary)]">Avg Ratio</p>
-        </div>
-        <div class="bg-[var(--bg-card)] rounded-2xl border border-[var(--color-separator)] p-3 text-center">
-          <p class="text-title2 font-mono text-[var(--text-primary)]">{Math.round(stats.avgBeans)}g</p>
-          <p class="text-caption2 text-[var(--text-tertiary)]">Avg Beans</p>
-        </div>
+        <StatCard icon={Coffee} label="Total Brews" value={String(stats.totalBrews)} />
+        <StatCard icon={TrendingUp} label="Top Method" value={formatMethod(stats.topMethod)} />
+        <StatCard icon={BarChart3} label="Avg Ratio" value={`1:${stats.avgRatio.toFixed(1)}`} />
+        <StatCard icon={Flame} label="Avg Beans" value={`${Math.round(stats.avgBeans)}g`} />
       </div>
 
       {/* Method distribution */}
@@ -112,15 +101,18 @@ export function StatsContent() {
         <h3 class="text-caption1 text-[var(--text-secondary)] uppercase tracking-wider mb-3">Method Distribution</h3>
         <div class="flex flex-col gap-2">
           {[...stats.methodCounts.entries()].sort((a, b) => b[1] - a[1]).map(([method, count]) => (
-            <div key={method} class="flex items-center gap-2">
+            <div key={method} class="flex items-center gap-2.5">
               <span class="text-caption1 text-[var(--text-secondary)] w-20 flex-shrink-0">{formatMethod(method)}</span>
-              <div class="flex-1 h-5 bg-[var(--bg-tertiary)]/50 rounded-full overflow-hidden">
+              <div class="flex-1 h-5 bg-[var(--bg-tertiary)]/30 rounded-full overflow-hidden">
                 <div
-                  class="h-full bg-[var(--color-amber)]/30 rounded-full transition-all"
-                  style={{ width: `${(count / maxMethod) * 100}%` }}
-                />
+                  class="h-full bg-[var(--color-amber)]/25 rounded-full transition-all flex items-center justify-end pr-2"
+                  style={{ width: `${Math.max((count / maxMethod) * 100, count > 0 ? 15 : 0)}%` }}
+                >
+                  {count > 0 && (
+                    <span class="text-[10px] font-mono font-medium text-[var(--color-caramel)]">{count}</span>
+                  )}
+                </div>
               </div>
-              <span class="text-caption2 font-mono text-[var(--text-tertiary)] w-5 text-right">{count}</span>
             </div>
           ))}
         </div>
@@ -128,15 +120,16 @@ export function StatsContent() {
 
       {/* Sparkline - last 4 weeks */}
       <div>
-        <h3 class="text-caption1 text-[var(--text-secondary)] uppercase tracking-wider mb-3">Last 4 Weeks</h3>
+        <h3 class="text-caption1 text-[var(--text-secondary)] uppercase tracking-wider mb-3">
+          <Clock size={12} class="inline mr-1" />
+          Last 4 Weeks
+        </h3>
         <div class="bg-[var(--bg-card)] rounded-2xl border border-[var(--color-separator)] p-4">
           <svg viewBox="0 0 100 40" class="w-full h-16">
-            {/* Grid lines */}
             <line x1="0" y1="30" x2="100" y2="30" stroke="var(--color-separator)" strokeWidth="0.5" />
             <line x1="0" y1="15" x2="100" y2="15" stroke="var(--color-separator)" strokeWidth="0.5" />
             <line x1="0" y1="0" x2="100" y2="0" stroke="var(--color-separator)" strokeWidth="0.5" />
 
-            {/* Area fill */}
             {stats.weeklyBrews.some(v => v > 0) && (
               <polygon
                 points={`0,35 ${stats.weeklyBrews.map((v, i) => `${i * 33.3},${35 - (v / maxWeekly) * 30}`).join(' ')} 100,35`}
@@ -145,7 +138,6 @@ export function StatsContent() {
               />
             )}
 
-            {/* Line */}
             <polyline
               points={stats.weeklyBrews.map((v, i) => `${i * 33.3},${35 - (v / maxWeekly) * 30}`).join(' ')}
               fill="none"
@@ -155,32 +147,38 @@ export function StatsContent() {
               strokeLinejoin="round"
             />
 
-            {/* Dots */}
             {stats.weeklyBrews.map((v, i) => (
-              <circle
-                key={i}
-                cx={i * 33.3}
-                cy={35 - (v / maxWeekly) * 30}
-                r="2"
-                fill="var(--color-amber)"
-              />
+              <circle key={i} cx={i * 33.3} cy={35 - (v / maxWeekly) * 30} r="2.5" fill="var(--color-amber)" />
             ))}
           </svg>
-          <div class="flex justify-between mt-1 text-caption2 text-[var(--text-tertiary)]">
-            <span>3 weeks ago</span>
-            <span>2 weeks ago</span>
-            <span>Last week</span>
-            <span>This week</span>
+          <div class="flex justify-between mt-1.5 text-[10px] font-medium text-[var(--text-tertiary)]">
+            <span>3w ago</span>
+            <span>2w ago</span>
+            <span>Last wk</span>
+            <span>This wk</span>
           </div>
         </div>
       </div>
 
       {/* Weekly summary */}
-      <div class="bg-[var(--bg-card)] rounded-2xl border border-[var(--color-separator)] p-4">
+      <div class="bg-[var(--bg-card)] rounded-2xl border border-[var(--color-separator)] p-4 flex items-center gap-3">
+        <Clock size={18} strokeWidth={1.5} class="text-[var(--text-tertiary)] flex-shrink-0" />
         <p class="text-caption1 text-[var(--text-secondary)]">
-          Last 7 days: {stats.weekBrews} brew{stats.weekBrews !== 1 ? 's' : ''}
-          {stats.weekBeans > 0 && <> · {stats.weekBeans}g beans used</>}
+          Last 7 days: <span class="font-mono text-[var(--text-primary)]">{stats.weekBrews}</span> brew{stats.weekBrews !== 1 ? 's' : ''}
+          {stats.weekBeans > 0 && <> · <span class="font-mono text-[var(--text-primary)]">{stats.weekBeans}g</span> beans</>}
         </p>
+      </div>
+    </div>
+  )
+}
+
+function StatCard({ icon: Icon, label, value }: { icon: typeof Coffee; label: string; value: string }) {
+  return (
+    <div class="bg-[var(--bg-card)] rounded-2xl border border-[var(--color-separator)] p-3.5 flex flex-col gap-2">
+      <Icon size={16} strokeWidth={1.5} class="text-[var(--color-amber)]/50" />
+      <div>
+        <p class="text-title3 font-mono text-[var(--text-primary)]">{value}</p>
+        <p class="text-caption2 text-[var(--text-tertiary)] mt-0.5">{label}</p>
       </div>
     </div>
   )

@@ -1,4 +1,4 @@
-import { getRecipeById, getAdjustment, isRecipeAdjusted, getBrewsForRecipe } from '../store/recipes'
+import { getRecipeById, getAdjustment, isRecipeAdjusted, getBrewsForRecipe, setAdjustment } from '../store/recipes'
 import { navigateTo, goBack, activeView, openAdjustments } from '../store/ui'
 import {
   formatMethod, formatGrind, formatWeight, formatTemperature,
@@ -8,7 +8,7 @@ import { calculateRatio } from '../lib/conversion'
 import type { StepData, Recipe } from '../db/types'
 import { FAB } from '../components/ui/FAB'
 import { Badge } from '../components/ui/Badge'
-import { ArrowLeft, SlidersHorizontal, Play, Timer, Clock, Coffee, Star } from 'lucide-preact'
+import { ArrowLeft, SlidersHorizontal, Play, Timer, Star } from 'lucide-preact'
 import { AdjustmentsSheet } from '../components/AdjustmentsSheet'
 
 // ── Reduce step configs ──
@@ -42,15 +42,6 @@ function estimateTotalTime(steps: Recipe['steps']): string {
   if (mins === 0) return `${secs}s`
   if (secs === 0) return `${mins} min`
   return `${mins}m ${secs}s`
-}
-
-// ── Grind level bar (matches MethodScreen) ──
-
-function grindWidth(grind: string): number {
-  const map: Record<string, number> = {
-    FINE: 1, MEDIUM_FINE: 2, MEDIUM: 3, MEDIUM_COARSE: 4, COARSE: 5
-  }
-  return map[grind] ?? 3
 }
 
 // ── Step detail formatter ──
@@ -106,7 +97,6 @@ export function RecipeScreen() {
 
   const ratio = calculateRatio({ beans: displayBeans, water: displayWater })
   const totalTime = estimateTotalTime(recipe.steps)
-  const grind = grindWidth(recipe.grind)
 
   return (
     <div class="flex flex-col h-full relative">
@@ -150,48 +140,59 @@ export function RecipeScreen() {
       <div class="px-4 pb-6">
         <div class="bg-[var(--bg-card)] rounded-2xl border border-[var(--color-separator)] p-5 flex flex-col gap-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.5)]">
           {/* Beans & Water — big, prominent */}
-          <div class="flex items-center gap-6">
-            <div class="flex items-baseline gap-1.5">
-              <Coffee size={16} strokeWidth={1.5} class="text-[var(--text-tertiary)]" />
-              <span class="text-title1 font-display text-[var(--text-primary)]">{displayBeans}</span>
-              <span class="text-caption1 text-[var(--text-tertiary)]">g</span>
+          <div class="flex items-end gap-4">
+            <div class="flex-1">
+              <div class="flex items-baseline gap-1">
+                <span class="text-largetitle font-display text-[var(--text-primary)]">{displayBeans}</span>
+                <span class="text-caption1 text-[var(--text-tertiary)]">g</span>
+              </div>
+              <p class="text-caption2 text-[var(--text-tertiary)] mt-0.5">Beans</p>
             </div>
-            <div class="text-caption1 text-[var(--text-tertiary)]">Beans</div>
-            <div class="flex-1" />
-            <div class="flex items-baseline gap-1.5">
-              <span class="text-title1 font-display text-[var(--text-primary)]">{displayWater}</span>
-              <span class="text-caption1 text-[var(--text-tertiary)]">ml</span>
+            <div class="flex-1 text-right">
+              <div class="flex items-baseline gap-1 justify-end">
+                <span class="text-largetitle font-display text-[var(--text-primary)]">{displayWater}</span>
+                <span class="text-caption1 text-[var(--text-tertiary)]">ml</span>
+              </div>
+              <p class="text-caption2 text-[var(--text-tertiary)] mt-0.5">Water</p>
             </div>
-            <div class="text-caption1 text-[var(--text-tertiary)]">Water</div>
           </div>
 
-          {/* Secondary row: ratio, temp, grind */}
-          <div class="flex items-center flex-wrap gap-x-4 gap-y-1.5">
-            <span class="text-callout font-mono text-[var(--color-amber)]">{ratio}</span>
-            <span class="text-caption2 text-[var(--text-tertiary)]">·</span>
-            <span class="text-callout font-mono text-[var(--text-secondary)]">{formatTemperature(recipe.temperature)}</span>
-            <span class="text-caption2 text-[var(--text-tertiary)]">·</span>
-            <span class="text-callout text-[var(--text-secondary)]">{formatGrind(recipe.grind)}</span>
+          {/* Divider */}
+          <div class="h-px bg-[var(--color-separator)]" />
+
+          {/* Ratio, temp, time row */}
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="text-callout font-mono text-[var(--color-amber)]">{ratio}</span>
+              <span class="text-caption2 text-[var(--text-tertiary)]">·</span>
+              <span class="text-callout font-mono text-[var(--text-secondary)]">{formatTemperature(recipe.temperature)}</span>
+              {totalTime && (
+                <>
+                  <span class="text-caption2 text-[var(--text-tertiary)]">·</span>
+                  <span class="text-callout text-[var(--text-secondary)]">~{totalTime}</span>
+                </>
+              )}
+            </div>
           </div>
 
-          {/* Grind indicator */}
-          <div class="flex items-center gap-2">
-            <span class="text-caption2 text-[var(--text-tertiary)]">Fine</span>
-            <div class="flex gap-1 flex-1">
-              {[1, 2, 3, 4, 5].map(i => (
-                <span key={i} class={`flex-1 h-1 rounded-full ${i <= grind ? 'bg-[var(--color-amber)]/50' : 'bg-[var(--color-separator)]'}`} />
-              ))}
-            </div>
-            <span class="text-caption2 text-[var(--text-tertiary)]">Coarse</span>
+          {/* Grind — stepped indicator */}
+          <div class="flex items-center gap-1">
+            {(['FINE', 'MEDIUM_FINE', 'MEDIUM', 'MEDIUM_COARSE', 'COARSE'] as const).map((g) => {
+              const isActive = recipe.grind === g
+              return (
+                <div key={g} class={`flex-1 flex flex-col items-center gap-1`}>
+                  <div class={`w-full h-1.5 rounded-full transition-colors ${
+                    isActive ? 'bg-[var(--color-caramel)]' : 'bg-[var(--bg-tertiary)]'
+                  }`} />
+                  <span class={`text-[9px] font-medium leading-none whitespace-nowrap transition-colors ${
+                    isActive ? 'text-[var(--color-caramel)]' : 'text-[var(--text-tertiary)]/40'
+                  }`}>
+                    {formatGrind(g)}
+                  </span>
+                </div>
+              )
+            })}
           </div>
-
-          {/* Total time */}
-          {totalTime && (
-            <div class="flex items-center gap-2 text-caption1 text-[var(--text-tertiary)]">
-              <Clock size={13} />
-              <span>~{totalTime} total brew time</span>
-            </div>
-          )}
         </div>
       </div>
 
@@ -268,47 +269,76 @@ function BrewsForRecipeSection({ recipeId }: { recipeId: string }) {
   if (brews.length === 0) return null
 
   return (
-    <div class="mt-8 ml-8">
-      <h2 class="text-caption1 text-[var(--text-secondary)] uppercase tracking-wider mb-3">
+    <div class="mt-8">
+      <h2 class="text-caption1 text-[var(--text-secondary)] uppercase tracking-wider mb-3 ml-8">
         Your Brews of this Recipe
       </h2>
       <div class="flex flex-col gap-2">
-        {brews.slice(0, 3).map((brew) => (
-          <div
-            key={brew.id}
-            class="bg-[var(--bg-card)]/50 rounded-xl border border-[var(--color-separator)]/50 px-3 py-2"
-          >
-            <div class="flex items-center gap-1.5 mb-1">
-              {brew.rating && (
-                <span class="flex gap-0.5">
-                  {[1, 2, 3, 4, 5].map(s => (
-                    <Star
-                      key={s}
-                      size={10}
-                      strokeWidth={1.5}
-                      class={s <= brew.rating! ? 'text-[var(--color-amber)] fill-[var(--color-amber)]' : 'text-[var(--text-tertiary)]/20'}
-                    />
-                  ))}
-                </span>
-              )}
-              <span class="text-caption2 text-[var(--text-tertiary)]">
-                {formatBrewDate(brew.brewedAt)}
-              </span>
+        {brews.slice(0, 5).map((brew) => {
+          const recipe = getRecipeById(recipeId)
+          const isAdjusted = recipe && (brew.beans !== recipe.beans || brew.water !== recipe.water)
+          
+          return (
+            <div
+              key={brew.id}
+              class="bg-[var(--bg-card)]/50 rounded-xl border border-[var(--color-separator)]/50 px-3 py-2.5"
+            >
+              <div class="flex items-center justify-between gap-2">
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-center gap-1.5">
+                    {brew.rating && (
+                      <span class="flex gap-0.5">
+                        {[1, 2, 3, 4, 5].map(s => (
+                          <Star
+                            key={s}
+                            size={10}
+                            strokeWidth={1.5}
+                            class={s <= brew.rating! ? 'text-[var(--color-amber)] fill-[var(--color-amber)]' : 'text-[var(--text-tertiary)]/20'}
+                          />
+                        ))}
+                      </span>
+                    )}
+                    <span class="text-caption2 text-[var(--text-tertiary)]">
+                      {formatBrewDate(brew.brewedAt)}
+                    </span>
+                  </div>
+                  <div class="flex items-center gap-2 mt-1 text-caption1 font-mono text-[var(--text-secondary)]">
+                    <span>{brew.beans}g</span>
+                    <span class="text-[var(--text-tertiary)]">/</span>
+                    <span>{brew.water}ml</span>
+                    <span class="text-[var(--text-tertiary)]">·</span>
+                    <span>1:{brew.ratio.toFixed(1)}</span>
+                    {isAdjusted && (
+                      <span class="text-[var(--color-caramel)] text-caption2 font-sans">adjusted</span>
+                    )}
+                  </div>
+                  {brew.notes && (
+                    <p class="text-caption1 text-[var(--text-secondary)] mt-1 italic line-clamp-2">
+                      "{brew.notes}"
+                    </p>
+                  )}
+                </div>
+                <button
+                  onClick={() => {
+                    if (isAdjusted) {
+                      setAdjustment(recipeId, {
+                        beans: brew.beans,
+                        water: brew.water,
+                        ice: brew.ice ?? null,
+                        ratio: brew.ratio,
+                      })
+                    }
+                    navigateTo({ type: 'brew', recipeId })
+                  }}
+                  class="flex-shrink-0 px-3 py-1.5 rounded-lg bg-[var(--color-caramel)] text-white text-caption2 font-medium active:scale-95 transition-transform"
+                >
+                  Brew Again
+                </button>
+              </div>
             </div>
-            {brew.notes && (
-              <p class="text-caption1 text-[var(--text-secondary)] italic">"{brew.notes.slice(0, 80)}{brew.notes.length > 80 ? '...' : ''}"</p>
-            )}
-          </div>
-        ))}
+          )
+        })}
       </div>
-      {brews.length > 3 && (
-        <button
-          onClick={() => navigateTo({ type: 'history' })}
-          class="mt-2 text-caption2 text-[var(--color-caramel)]"
-        >
-          View all {brews.length} brews →
-        </button>
-      )}
     </div>
   )
 }

@@ -2,7 +2,7 @@ import { useMemo, useState } from 'preact/hooks'
 import { brews, deleteBrew } from '../store/recipes'
 import { navigateTo, goBack, activeView } from '../store/ui'
 import { formatMethod, formatWeight } from '../lib/format'
-import { ArrowLeft, Play, Clock, Star, FileText, Trash2, BarChart3 } from 'lucide-preact'
+import { ArrowLeft, Play, Clock, Star, FileText, Trash2, BarChart3, Coffee, TrendingUp, Flame } from 'lucide-preact'
 import { EmptyState } from '../components/ui/EmptyState'
 import { StatsContent } from './StatsScreen'
 
@@ -132,22 +132,34 @@ export function BrewHistoryScreen() {
           {/* Stats pills */}
           {stats && (
             <div class="px-4 pb-4 flex gap-2 overflow-x-auto scrollbar-none">
-              <div class="bg-[var(--bg-card)] rounded-xl border border-[var(--color-separator)] px-3 py-2 flex-shrink-0 min-w-[80px] text-center">
-                <p class="text-title3 font-mono text-[var(--text-primary)]">{stats.totalBrews}</p>
-                <p class="text-caption2 text-[var(--text-tertiary)]">Total</p>
+              <div class="bg-[var(--bg-card)] rounded-xl border border-[var(--color-separator)] px-3 py-2.5 flex-shrink-0 flex items-center gap-2">
+                <Coffee size={16} strokeWidth={1.5} class="text-[var(--color-amber)]/60 flex-shrink-0" />
+                <div>
+                  <p class="text-headline font-mono text-[var(--text-primary)]">{stats.totalBrews}</p>
+                  <p class="text-[10px] text-[var(--text-tertiary)]">Total</p>
+                </div>
               </div>
-              <div class="bg-[var(--bg-card)] rounded-xl border border-[var(--color-separator)] px-3 py-2 flex-shrink-0 min-w-[80px] text-center">
-                <p class="text-title3 font-mono text-[var(--text-primary)]">{formatMethod(stats.topMethod)}</p>
-                <p class="text-caption2 text-[var(--text-tertiary)]">Top Method</p>
+              <div class="bg-[var(--bg-card)] rounded-xl border border-[var(--color-separator)] px-3 py-2.5 flex-shrink-0 flex items-center gap-2">
+                <TrendingUp size={16} strokeWidth={1.5} class="text-[var(--color-amber)]/60 flex-shrink-0" />
+                <div>
+                  <p class="text-headline font-mono text-[var(--text-primary)]">{formatMethod(stats.topMethod)}</p>
+                  <p class="text-[10px] text-[var(--text-tertiary)]">Top</p>
+                </div>
               </div>
-              <div class="bg-[var(--bg-card)] rounded-xl border border-[var(--color-separator)] px-3 py-2 flex-shrink-0 min-w-[80px] text-center">
-                <p class="text-title3 font-mono text-[var(--text-primary)]">1:{stats.avgRatio.toFixed(1)}</p>
-                <p class="text-caption2 text-[var(--text-tertiary)]">Avg Ratio</p>
+              <div class="bg-[var(--bg-card)] rounded-xl border border-[var(--color-separator)] px-3 py-2.5 flex-shrink-0 flex items-center gap-2">
+                <Flame size={16} strokeWidth={1.5} class="text-[var(--color-amber)]/60 flex-shrink-0" />
+                <div>
+                  <p class="text-headline font-mono text-[var(--text-primary)]">1:{stats.avgRatio.toFixed(1)}</p>
+                  <p class="text-[10px] text-[var(--text-tertiary)]">Avg Ratio</p>
+                </div>
               </div>
               {stats.streak > 0 && (
-                <div class="bg-[var(--bg-card)] rounded-xl border border-[var(--color-separator)] px-3 py-2 flex-shrink-0 min-w-[80px] text-center">
-                  <p class="text-title3 font-mono text-[var(--text-primary)]">{stats.streak}d</p>
-                  <p class="text-caption2 text-[var(--text-tertiary)]">Streak</p>
+                <div class="bg-[var(--bg-card)] rounded-xl border border-[var(--color-separator)] px-3 py-2.5 flex-shrink-0 flex items-center gap-2">
+                  <Flame size={16} strokeWidth={1.5} class="text-[var(--color-amber)] flex-shrink-0" />
+                  <div>
+                    <p class="text-headline font-mono text-[var(--text-primary)]">{stats.streak}d</p>
+                    <p class="text-[10px] text-[var(--text-tertiary)]">Streak</p>
+                  </div>
                 </div>
               )}
             </div>
