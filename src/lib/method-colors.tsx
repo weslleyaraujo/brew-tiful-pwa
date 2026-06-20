@@ -1,50 +1,21 @@
 const METHOD_ICONS: Record<string, string> = {
-  // Nested V-shapes — pour-over ridges
-  V60: [
-    'M6 6 L12 18 L18 6',
-    'M8 8 L12 15 L16 8',
-    'M10 10 L12 12 L14 10',
-  ].join(' '),
+  // Center square
+  V60: 'M8 8 L16 8 L16 16 L8 16 Z',
 
-  // Parallel horizontals descending — plunger press
-  AEROPRESS: [
-    'M4 6 L20 6',
-    'M4 12 L20 12',
-    'M4 18 L20 18',
-    'M8 4 L8 20',
-    'M16 4 L16 20',
-  ].join(' '),
+  // Quarter blocks — top-left + bottom-right
+  AEROPRESS: 'M2 2 L11 2 L11 11 L2 11 Z M13 13 L22 13 L22 22 L13 22 Z',
 
-  // X with horizontals — hourglass + collar
-  CHEMEX: [
-    'M4 6 L12 12 L20 6',
-    'M4 18 L12 12 L20 18',
-    'M8 10 L16 10',
-    'M8 14 L16 14',
-  ].join(' '),
+  // Horizontal split
+  CHEMEX: 'M2 2 L22 2 L22 11 L2 11 Z M2 13 L22 13 L22 22 L2 22 Z',
 
-  // Vertical slats — plunger mesh
-  FRENCH_PRESS: [
-    'M6 4 L6 20',
-    'M9 4 L9 20',
-    'M12 4 L12 20',
-    'M15 4 L15 20',
-    'M18 4 L18 20',
-  ].join(' '),
+  // Vertical split
+  FRENCH_PRESS: 'M2 2 L11 2 L11 22 L2 22 Z M13 2 L22 2 L22 22 L13 22 Z',
 
-  // Stepped diagonal — chambers
-  MOKA_POT: [
-    'M4 6 L10 6 L10 12 L4 12 Z',
-    'M10 12 L18 12 L18 18 L10 18 Z',
-    'M4 18 L20 18',
-  ].join(' '),
+  // Four small squares
+  MOKA_POT: 'M3 3 L9 3 L9 9 L3 9 Z M15 3 L21 3 L21 9 L15 9 Z M3 15 L9 15 L9 21 L3 21 Z M15 15 L21 15 L21 21 L15 21 Z',
 
-  // Zigzag spout — bent kettle
-  STAGG: [
-    'M6 4 L14 4 L14 10',
-    'M10 10 L14 10 L18 14 L18 20',
-    'M6 14 L20 14',
-  ].join(' '),
+  // Top-left corner square
+  STAGG: 'M2 2 L14 2 L14 14 L2 14 Z',
 }
 
 export function MethodIcon({ method, size = 28 }: { method: string; size?: number }) {
@@ -55,8 +26,9 @@ export function MethodIcon({ method, size = 28 }: { method: string; size?: numbe
       viewBox="0 0 24 24"
       fill="none"
       stroke="var(--color-amber)"
-      strokeWidth="1.8"
+      strokeWidth="2"
       strokeLinecap="round"
+      strokeLinejoin="round"
     >
       <path d={METHOD_ICONS[method] ?? METHOD_ICONS.V60} />
     </svg>
