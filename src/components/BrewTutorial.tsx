@@ -1,5 +1,5 @@
 import { useState } from 'preact/hooks'
-import { Droplets, ChevronUpDown, Timer } from 'lucide-preact'
+import { Droplets, ChevronsUpDown, Timer } from 'lucide-preact'
 import { markBrewTutorialSeen } from '../store/prefs'
 
 const STEPS = [
@@ -10,7 +10,7 @@ const STEPS = [
     position: 'top-right',
   },
   {
-    icon: ChevronUpDown,
+    icon: ChevronsUpDown,
     title: 'Navigate steps',
     description: 'Swipe up/down or tap "Next Step" to advance through the recipe.',
     position: 'center',

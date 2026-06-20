@@ -1,9 +1,9 @@
-import { recipesByMethod, recentBrews, brews, favorites, favoriteIds, toggleFavorite, lastRecipeByMethod } from '../store/recipes'
+import { recentBrews, brews, favoriteIds, lastRecipeByMethod } from '../store/recipes'
 import { navigateTo } from '../store/ui'
 import { formatMethod, formatMethodDescription } from '../lib/format'
 import { MethodIcon } from '../lib/method-colors'
 import { Play, Clock, Heart, Flame } from 'lucide-preact'
-import { useMemo, useState, useEffect, useRef, useCallback } from 'preact/hooks'
+import { useMemo, useRef, useCallback } from 'preact/hooks'
 import type { Method } from '../db/types'
 
 function useGreeting() {
@@ -164,8 +164,6 @@ export function HomeScreen() {
         <h2 class="text-caption1 text-[var(--text-secondary)] uppercase tracking-wider">Brew Methods</h2>
         <div class="grid grid-cols-2 gap-2">
           {ALL_METHODS.map((method, idx) => {
-            const methodRecipes = recipesByMethod.value.get(method) ?? []
-            const recipeCount = methodRecipes.length
             return (
               <button
                 key={method}

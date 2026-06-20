@@ -127,131 +127,128 @@ export function BrewHistoryScreen() {
         </button>
       </div>
 
-      {showStats ? (
-        <StatsContent />
-      ) : (
-        <>
-      {/* Stats pills */}
-      {stats && (
-        <div class="px-4 pb-4 flex gap-2 overflow-x-auto scrollbar-none">
-          <div class="bg-[var(--bg-card)] rounded-xl border border-[var(--color-separator)] px-3 py-2 flex-shrink-0 min-w-[80px] text-center">
-            <p class="text-title3 font-mono text-[var(--text-primary)]">{stats.totalBrews}</p>
-            <p class="text-caption2 text-[var(--text-tertiary)]">Total</p>
-          </div>
-          <div class="bg-[var(--bg-card)] rounded-xl border border-[var(--color-separator)] px-3 py-2 flex-shrink-0 min-w-[80px] text-center">
-            <p class="text-title3 font-mono text-[var(--text-primary)]">{formatMethod(stats.topMethod)}</p>
-            <p class="text-caption2 text-[var(--text-tertiary)]">Top Method</p>
-          </div>
-          <div class="bg-[var(--bg-card)] rounded-xl border border-[var(--color-separator)] px-3 py-2 flex-shrink-0 min-w-[80px] text-center">
-            <p class="text-title3 font-mono text-[var(--text-primary)]">1:{stats.avgRatio.toFixed(1)}</p>
-            <p class="text-caption2 text-[var(--text-tertiary)]">Avg Ratio</p>
-          </div>
-          {stats.streak > 0 && (
-            <div class="bg-[var(--bg-card)] rounded-xl border border-[var(--color-separator)] px-3 py-2 flex-shrink-0 min-w-[80px] text-center">
-              <p class="text-title3 font-mono text-[var(--text-primary)]">{stats.streak}d</p>
-              <p class="text-caption2 text-[var(--text-tertiary)]">Streak</p>
+      {showStats ? <StatsContent /> : (
+        <div class="flex flex-col flex-1">
+          {/* Stats pills */}
+          {stats && (
+            <div class="px-4 pb-4 flex gap-2 overflow-x-auto scrollbar-none">
+              <div class="bg-[var(--bg-card)] rounded-xl border border-[var(--color-separator)] px-3 py-2 flex-shrink-0 min-w-[80px] text-center">
+                <p class="text-title3 font-mono text-[var(--text-primary)]">{stats.totalBrews}</p>
+                <p class="text-caption2 text-[var(--text-tertiary)]">Total</p>
+              </div>
+              <div class="bg-[var(--bg-card)] rounded-xl border border-[var(--color-separator)] px-3 py-2 flex-shrink-0 min-w-[80px] text-center">
+                <p class="text-title3 font-mono text-[var(--text-primary)]">{formatMethod(stats.topMethod)}</p>
+                <p class="text-caption2 text-[var(--text-tertiary)]">Top Method</p>
+              </div>
+              <div class="bg-[var(--bg-card)] rounded-xl border border-[var(--color-separator)] px-3 py-2 flex-shrink-0 min-w-[80px] text-center">
+                <p class="text-title3 font-mono text-[var(--text-primary)]">1:{stats.avgRatio.toFixed(1)}</p>
+                <p class="text-caption2 text-[var(--text-tertiary)]">Avg Ratio</p>
+              </div>
+              {stats.streak > 0 && (
+                <div class="bg-[var(--bg-card)] rounded-xl border border-[var(--color-separator)] px-3 py-2 flex-shrink-0 min-w-[80px] text-center">
+                  <p class="text-title3 font-mono text-[var(--text-primary)]">{stats.streak}d</p>
+                  <p class="text-caption2 text-[var(--text-tertiary)]">Streak</p>
+                </div>
+              )}
             </div>
           )}
-        </div>
-      )}
 
-      {/* Brew list with groups */}
-      <div class="relative flex-1 overflow-y-auto px-4 pb-24">
-        {allBrews.length === 0 ? (
-          <EmptyState title="Your brewing journey starts here" description="Complete your first brew to see it here" />
-        ) : (
-          <div class="flex flex-col gap-4">
-            {groups.map((group) => (
-              <div key={group.label}>
-                {/* Sticky group header */}
-                <div class="sticky top-0 z-10 pb-2 bg-[var(--bg-app)]">
-                  <h2 class="text-caption1 text-[var(--text-secondary)] uppercase tracking-wider">
-                    {group.label}
-                    <span class="ml-1 text-[var(--text-tertiary)] font-normal normal-case tracking-normal">
-                      · {group.brews.length}
-                    </span>
-                  </h2>
-                </div>
+          {/* Brew list with groups */}
+          <div class="relative flex-1 overflow-y-auto px-4 pb-24">
+            {allBrews.length === 0 ? (
+              <EmptyState title="Your brewing journey starts here" description="Complete your first brew to see it here" />
+            ) : (
+              <div class="flex flex-col gap-4">
+                {groups.map((group) => (
+                  <div key={group.label}>
+                    <div class="sticky top-0 z-10 pb-2 bg-[var(--bg-app)]">
+                      <h2 class="text-caption1 text-[var(--text-secondary)] uppercase tracking-wider">
+                        {group.label}
+                        <span class="ml-1 text-[var(--text-tertiary)] font-normal normal-case tracking-normal">
+                          · {group.brews.length}
+                        </span>
+                      </h2>
+                    </div>
 
-                <div class="flex flex-col gap-2">
-                  {group.brews.map((brew, idx) => (
-                    <div
-                      key={brew.id}
-                      class="bg-[var(--bg-card)] rounded-2xl border border-[var(--color-separator)] p-4 animate-scale-in"
-                      style={{ animationDelay: `${idx * 40}ms`, animationFillMode: 'backwards' }}
-                    >
-                      <div class="flex items-start justify-between gap-3">
-                        <div class="flex-1 min-w-0">
-                          <p class="text-body-bold truncate">{brew.recipeName}</p>
-                          <div class="flex items-center gap-2 mt-1 text-caption1 text-[var(--text-tertiary)]">
-                            <span>{formatMethod(brew.method)}</span>
-                            <span>·</span>
-                            <span class="font-mono">{formatWeight(brew.beans, 'mass')}</span>
-                            <span>·</span>
-                            <span class="font-mono">{formatWeight(brew.water, 'volume')}</span>
-                          </div>
-                          <div class="flex items-center gap-2 mt-1 text-caption2 text-[var(--text-tertiary)]">
-                            <Clock size={10} />
-                            <span>{formatDate(brew.brewedAt)}</span>
-                            {brew.rating && <Stars rating={brew.rating} />}
-                          </div>
-                          {brew.notes && (
-                            <div class="mt-2">
+                    <div class="flex flex-col gap-2">
+                      {group.brews.map((brew, idx) => (
+                        <div
+                          key={brew.id}
+                          class="bg-[var(--bg-card)] rounded-2xl border border-[var(--color-separator)] p-4 animate-scale-in"
+                          style={{ animationDelay: `${idx * 40}ms`, animationFillMode: 'backwards' }}
+                        >
+                          <div class="flex items-start justify-between gap-3">
+                            <div class="flex-1 min-w-0">
+                              <p class="text-body-bold truncate">{brew.recipeName}</p>
+                              <div class="flex items-center gap-2 mt-1 text-caption1 text-[var(--text-tertiary)]">
+                                <span>{formatMethod(brew.method)}</span>
+                                <span>·</span>
+                                <span class="font-mono">{formatWeight(brew.beans, 'mass')}</span>
+                                <span>·</span>
+                                <span class="font-mono">{formatWeight(brew.water, 'volume')}</span>
+                              </div>
+                              <div class="flex items-center gap-2 mt-1 text-caption2 text-[var(--text-tertiary)]">
+                                <Clock size={10} />
+                                <span>{formatDate(brew.brewedAt)}</span>
+                                {brew.rating && <Stars rating={brew.rating} />}
+                              </div>
+                              {brew.notes && (
+                                <div class="mt-2">
+                                  <button
+                                    onClick={() => setExpandedNotes(expandedNotes === brew.id ? null : brew.id)}
+                                    class="flex items-center gap-1 text-caption2 text-[var(--text-tertiary)]"
+                                  >
+                                    <FileText size={10} />
+                                    <span class={expandedNotes === brew.id ? '' : 'truncate max-w-[200px]'}>
+                                      {expandedNotes === brew.id ? brew.notes : brew.notes.slice(0, 60) + (brew.notes.length > 60 ? '...' : '')}
+                                    </span>
+                                  </button>
+                                </div>
+                              )}
+                            </div>
+
+                            <div class="flex items-center gap-1 flex-shrink-0">
                               <button
-                                onClick={() => setExpandedNotes(expandedNotes === brew.id ? null : brew.id)}
-                                class="flex items-center gap-1 text-caption2 text-[var(--text-tertiary)]"
+                                onClick={() => navigateTo({ type: 'brew', recipeId: brew.recipeId })}
+                                class="w-8 h-8 rounded-full bg-[var(--color-amber)]/10 flex items-center justify-center active:scale-90 transition-transform"
                               >
-                                <FileText size={10} />
-                                <span class={expandedNotes === brew.id ? '' : 'truncate max-w-[200px]'}>
-                                  {expandedNotes === brew.id ? brew.notes : brew.notes.slice(0, 60) + (brew.notes.length > 60 ? '...' : '')}
-                                </span>
+                                <Play size={14} strokeWidth={2.5} class="text-[var(--color-amber)] ml-0.5" />
+                              </button>
+                              <button
+                                onClick={() => setConfirmDelete(confirmDelete === brew.id ? null : brew.id)}
+                                class="w-8 h-8 rounded-full flex items-center justify-center active:scale-90 transition-transform text-[var(--text-tertiary)]"
+                              >
+                                <Trash2 size={14} strokeWidth={1.5} />
+                              </button>
+                            </div>
+                          </div>
+
+                          {confirmDelete === brew.id && (
+                            <div class="mt-3 pt-3 border-t border-[var(--color-separator)] flex items-center gap-2">
+                              <span class="text-caption1 text-[var(--text-secondary)]">Delete this brew?</span>
+                              <button
+                                onClick={() => { deleteBrew(brew.id); setConfirmDelete(null) }}
+                                class="px-3 py-1 rounded-lg bg-[var(--color-red)] text-white text-caption2 font-medium active:scale-95 transition-transform"
+                              >
+                                Delete
+                              </button>
+                              <button
+                                onClick={() => setConfirmDelete(null)}
+                                class="px-3 py-1 rounded-lg bg-[var(--bg-tertiary)] text-[var(--text-secondary)] text-caption2 font-medium active:scale-95 transition-transform"
+                              >
+                                Cancel
                               </button>
                             </div>
                           )}
                         </div>
-
-                        <div class="flex items-center gap-1 flex-shrink-0">
-                          <button
-                            onClick={() => navigateTo({ type: 'brew', recipeId: brew.recipeId })}
-                            class="w-8 h-8 rounded-full bg-[var(--color-amber)]/10 flex items-center justify-center active:scale-90 transition-transform"
-                          >
-                            <Play size={14} strokeWidth={2.5} class="text-[var(--color-amber)] ml-0.5" />
-                          </button>
-                          <button
-                            onClick={() => setConfirmDelete(confirmDelete === brew.id ? null : brew.id)}
-                            class="w-8 h-8 rounded-full flex items-center justify-center active:scale-90 transition-transform text-[var(--text-tertiary)]"
-                          >
-                            <Trash2 size={14} strokeWidth={1.5} />
-                          </button>
-                        </div>
-                      </div>
-
-                      {/* Delete confirmation */}
-                      {confirmDelete === brew.id && (
-                        <div class="mt-3 pt-3 border-t border-[var(--color-separator)] flex items-center gap-2">
-                          <span class="text-caption1 text-[var(--text-secondary)]">Delete this brew?</span>
-                          <button
-                            onClick={() => { deleteBrew(brew.id); setConfirmDelete(null) }}
-                            class="px-3 py-1 rounded-lg bg-[var(--color-red)] text-white text-caption2 font-medium active:scale-95 transition-transform"
-                          >
-                            Delete
-                          </button>
-                          <button
-                            onClick={() => setConfirmDelete(null)}
-                            class="px-3 py-1 rounded-lg bg-[var(--bg-tertiary)] text-[var(--text-secondary)] text-caption2 font-medium active:scale-95 transition-transform"
-                          >
-                            Cancel
-                          </button>
-                        </div>
-                      )}
+                      ))}
                     </div>
-                  ))}
-                </div>
+                  </div>
+                ))}
               </div>
-            ))}
+            )}
           </div>
-        )}
-      </div>
+        </div>
       )}
     </div>
   )

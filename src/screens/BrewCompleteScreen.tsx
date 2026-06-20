@@ -1,25 +1,26 @@
 import { useState } from 'preact/hooks'
 import { goBack, navigateTo, activeView } from '../store/ui'
 import { getRecipeById, updateBrew } from '../store/recipes'
-import { formatMethod } from '../lib/format'
 import { Coffee, Star } from 'lucide-preact'
 
 export function BrewCompleteScreen() {
   const view = activeView.value
   if (view.type !== 'brew-complete') return null
 
-  const recipe = getRecipeById(view.recipeId)
+  const recipeId = view.recipeId
+  const brewId = view.brewId
+  const recipe = getRecipeById(recipeId)
   const [rating, setRating] = useState(0)
   const [notes, setNotes] = useState('')
 
   function handleSave() {
-    if (rating > 0) updateBrew(view.brewId, { rating })
-    if (notes.trim()) updateBrew(view.brewId, { notes: notes.trim() })
+    if (rating > 0) updateBrew(brewId, { rating })
+    if (notes.trim()) updateBrew(brewId, { notes: notes.trim() })
   }
 
   function handleBrewAgain() {
     handleSave()
-    navigateTo({ type: 'brew', recipeId: view.recipeId })
+    navigateTo({ type: 'brew', recipeId })
   }
 
   function handleBackHome() {
@@ -27,11 +28,7 @@ export function BrewCompleteScreen() {
     goBack()
   }
 
-  // We look up the brew record for display details
-  const brew = (() => {
-    // Try to find it via the brewId stored in the view
-    return null // We'll use recipe data as fallback
-  })()
+  // Brew display details use recipe data
 
   return (
     <div class="flex flex-col h-full bg-[var(--bg-app)] animate-fade-in">
