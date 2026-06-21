@@ -138,31 +138,34 @@ export function RecipeScreen() {
 
       {/* ── Hero stats card ── */}
       <div class="px-4 pb-6">
-        <div class="bg-[var(--bg-card)] rounded-2xl border border-[var(--color-separator)] p-5 flex flex-col gap-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.5)]">
+        <div class="bg-[var(--bg-card)] rounded-2xl p-5 flex flex-col gap-3">
           {/* Beans & Water — big, prominent */}
-          <div class="flex items-stretch gap-2">
-            <div class="flex-1 bg-[var(--bg-tertiary)]/30 rounded-xl p-3 flex flex-col gap-1">
-              <span class="text-caption2 text-[var(--text-tertiary)] uppercase tracking-wider">Beans</span>
+          <div class="flex items-end gap-6">
+            <div class="flex flex-col">
+              <span class="text-caption2 text-[var(--text-tertiary)] uppercase tracking-wider mb-1">Beans</span>
               <span class="text-title1-bold font-display text-[var(--text-primary)]">
                 {displayBeans}<span class="text-body text-[var(--text-tertiary)] font-normal ml-0.5">g</span>
               </span>
             </div>
-            <div class="flex-1 bg-[var(--bg-tertiary)]/30 rounded-xl p-3 flex flex-col gap-1">
-              <span class="text-caption2 text-[var(--text-tertiary)] uppercase tracking-wider">Water</span>
+            <div class="flex flex-col">
+              <span class="text-caption2 text-[var(--text-tertiary)] uppercase tracking-wider mb-1">Water</span>
               <span class="text-title1-bold font-display text-[var(--text-primary)]">
                 {displayWater}<span class="text-body text-[var(--text-tertiary)] font-normal ml-0.5">ml</span>
               </span>
             </div>
           </div>
 
+          {/* Separator */}
+          <div class="h-px bg-[var(--color-separator)]" />
+
           {/* Secondary stats row */}
           <div class="flex items-center gap-3 text-caption1 text-[var(--text-tertiary)]">
             <span class="font-mono text-[var(--text-secondary)]">{ratio}</span>
-            <span class="opacity-40">·</span>
+            <span class="opacity-30">·</span>
             <span class="font-mono text-[var(--text-secondary)]">{formatTemperature(recipe.temperature)}</span>
             {totalTime && (
               <>
-                <span class="opacity-40">·</span>
+                <span class="opacity-30">·</span>
                 <span class="text-[var(--text-secondary)]">~{totalTime}</span>
               </>
             )}
@@ -178,7 +181,7 @@ export function RecipeScreen() {
                     isActive ? 'bg-[var(--color-caramel)]' : 'bg-[var(--bg-tertiary)]'
                   }`} />
                   <span class={`text-[9px] font-medium leading-none whitespace-nowrap transition-colors ${
-                    isActive ? 'text-[var(--color-caramel)]' : 'text-[var(--text-tertiary)]/40'
+                    isActive ? 'text-[var(--color-caramel)]' : 'text-[var(--text-tertiary)]/30'
                   }`}>
                     {formatGrind(g)}
                   </span>
@@ -274,7 +277,7 @@ function BrewsForRecipeSection({ recipeId }: { recipeId: string }) {
           return (
             <div
               key={brew.id}
-              class="bg-[var(--bg-card)]/50 rounded-xl border border-[var(--color-separator)]/50 px-3 py-2.5"
+              class="bg-[var(--bg-card)] rounded-xl px-3 py-2.5"
             >
               <div class="flex items-center justify-between gap-2">
                 <div class="flex-1 min-w-0">

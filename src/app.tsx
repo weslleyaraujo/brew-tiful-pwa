@@ -68,7 +68,7 @@ export function App() {
       </main>
 
       <nav
-        class="flex items-center justify-around px-2 pt-1
+        class="flex items-center justify-around px-2 pt-1 pb-2
                bg-[var(--bg-app)] border-t border-[var(--color-separator)]"
       >
         {TABS.map((tab) => {
@@ -78,14 +78,14 @@ export function App() {
             <button
               key={tab.id}
               onClick={() => (activeTab.value = tab.id)}
-              class={`flex flex-col items-center gap-0.5 px-4 py-1 rounded-xl transition-colors min-h-[48px] justify-center
+              class={`flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-xl transition-colors
                 ${
                   isActive
                     ? "text-[var(--color-caramel)]"
                     : "text-[var(--text-tertiary)] hover:text-[var(--text-secondary)]"
                 }`}
             >
-              <Icon size={20} strokeWidth={isActive ? 2.5 : 1.5} />
+              <Icon size={18} strokeWidth={isActive ? 2.5 : 1.5} />
               <span class="text-[10px] font-medium">{tab.label}</span>
             </button>
           );
