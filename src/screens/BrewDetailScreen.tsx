@@ -2,7 +2,7 @@ import { useState } from 'preact/hooks'
 import { goBack, navigateTo, activeView } from '../store/ui'
 import { brews, updateBrew, deleteBrew } from '../store/recipes'
 import { formatMethod } from '../lib/format'
-import { ArrowLeft, Play, Star, Trash2, Clock } from 'lucide-preact'
+import { ArrowLeft, Play, Star, Trash2, Clock, BookOpen } from 'lucide-preact'
 
 function formatDate(date: Date): string {
   const now = new Date()
@@ -88,6 +88,21 @@ export function BrewDetailScreen() {
             {formatDate(brew.brewedAt)}
           </span>
         </div>
+
+        {/* Recipe link */}
+        <button
+          onClick={() => navigateTo({ type: 'recipe', recipeId: brew.recipeId })}
+          class="bg-[var(--bg-card)] rounded-xl border border-[var(--color-separator)] px-4 py-3 flex items-center gap-3 active:scale-[0.98] transition-transform"
+        >
+          <div class="w-8 h-8 rounded-lg bg-[var(--color-amber)]/10 flex items-center justify-center flex-shrink-0">
+            <BookOpen size={16} strokeWidth={1.5} class="text-[var(--color-amber)]" />
+          </div>
+          <div class="flex-1 min-w-0">
+            <p class="text-caption1 text-[var(--text-tertiary)]">Recipe</p>
+            <p class="text-body text-[var(--text-primary)] truncate">{brew.recipeName}</p>
+          </div>
+          <span class="text-caption2 text-[var(--color-amber)]">View →</span>
+        </button>
 
         {/* Brew stats */}
         <div class="grid grid-cols-3 gap-3">
