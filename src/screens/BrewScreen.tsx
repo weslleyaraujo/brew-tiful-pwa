@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from 'preact/hooks'
-import { X, Play, Pause, Droplets, RotateCw } from 'lucide-preact'
+import { X, Play, Pause, Droplets, RotateCw, FileText } from 'lucide-preact'
 import { getRecipeById, getAdjustment, addBrew } from '../store/recipes'
 import { goBack, navigateTo, activeView } from '../store/ui'
 import { formatWeight, formatDuration, formatStepTitle, formatGrind } from '../lib/format'
@@ -292,7 +292,14 @@ export function BrewScreen() {
           </div>
         </div>
 
-        <div class="flex justify-end">
+        <div class="flex justify-end gap-2">
+          <button
+            onClick={() => navigateTo({ type: 'recipe', recipeId })}
+            class="w-10 h-10 rounded-full bg-[var(--bg-elevated)]/70 shadow-sm flex items-center justify-center text-[var(--text-secondary)] active:scale-90 transition-transform"
+            title="View recipe"
+          >
+            <FileText size={16} strokeWidth={2} />
+          </button>
           {totalWaterPoured > 0 && (
             <div class="bg-[var(--color-amber)]/15 px-4 py-2 rounded-full flex items-center gap-2 animate-fade-in whitespace-nowrap ring-1 ring-[var(--color-amber)]/30">
               <Droplets size={14} strokeWidth={2.5} class="text-[var(--color-amber)] flex-shrink-0" />
