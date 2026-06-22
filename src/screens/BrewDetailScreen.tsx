@@ -109,18 +109,22 @@ export function BrewDetailScreen() {
                 <Star
                   size={36}
                   strokeWidth={1.5}
-                  class={(brew.rating && star <= brew.rating)
+                  class={(brew.rating != null && star <= brew.rating)
                     ? 'text-[var(--color-amber)] fill-[var(--color-amber)]'
                     : 'text-[var(--text-tertiary)]/20'}
                 />
               </button>
             ))}
           </div>
-          {brew.rating && (
-            <p class="text-caption1 text-[var(--text-tertiary)]">
-              {brew.rating}/5
-            </p>
-          )}
+          <div class="h-5 flex items-center justify-center">
+            {brew.rating != null && brew.rating > 0 ? (
+              <p class="text-caption1 text-[var(--text-tertiary)]">
+                {brew.rating}/5
+              </p>
+            ) : (
+              <p class="text-caption1 text-[var(--text-tertiary)]/0">0/5</p>
+            )}
+          </div>
         </div>
 
         <div class="h-px bg-[var(--color-separator)]" />

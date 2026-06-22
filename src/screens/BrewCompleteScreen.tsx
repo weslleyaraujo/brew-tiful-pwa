@@ -1,7 +1,7 @@
 import { useState } from 'preact/hooks'
 import { goBack, navigateTo, activeView } from '../store/ui'
 import { getRecipeById, updateBrew } from '../store/recipes'
-import { Coffee } from 'lucide-preact'
+import { Coffee, Star } from 'lucide-preact'
 
 export function BrewCompleteScreen() {
   const view = activeView.value
@@ -72,6 +72,15 @@ export function BrewCompleteScreen() {
             </span>
           </div>
         )}
+
+        {/* Rate link */}
+        <button
+          onClick={() => { handleSave(); navigateTo({ type: 'brew-detail', brewId }) }}
+          class="flex items-center gap-1.5 text-caption1 text-[var(--color-amber)] active:scale-95 transition-transform"
+        >
+          <Star size={14} strokeWidth={2} />
+          Rate this brew
+        </button>
 
         {/* Notes */}
         <div class="w-full max-w-xs">
