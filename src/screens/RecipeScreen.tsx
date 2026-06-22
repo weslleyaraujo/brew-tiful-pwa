@@ -1,4 +1,4 @@
-import { getRecipeById, getAdjustment, isRecipeAdjusted, getBrewsForRecipe, setAdjustment } from '../store/recipes'
+import { getRecipeById, getAdjustment, isRecipeAdjusted, getBrewsForRecipe, setAdjustment, toggleFavorite, favoriteIds } from '../store/recipes'
 import { navigateTo, goBack, activeView, openAdjustments } from '../store/ui'
 import {
   formatMethod, formatGrind, formatWeight, formatTemperature,
@@ -8,7 +8,7 @@ import { calculateRatio } from '../lib/conversion'
 import type { StepData, Recipe } from '../db/types'
 import { FAB } from '../components/ui/FAB'
 import { Badge } from '../components/ui/Badge'
-import { ArrowLeft, SlidersHorizontal, Play, Timer, Star } from 'lucide-preact'
+import { ArrowLeft, SlidersHorizontal, Play, Timer, Star, Bookmark } from 'lucide-preact'
 import { AdjustmentsSheet } from '../components/AdjustmentsSheet'
 
 // ── Reduce step configs ──
@@ -114,6 +114,16 @@ export function RecipeScreen() {
         </button>
         <div class="flex items-center gap-1">
           <button
+            onClick={() => toggleFavorite(recipeId)}
+            class="p-2 rounded-xl active:scale-90 transition-transform"
+          >
+            <Bookmark
+              size={20}
+              strokeWidth={2}
+              class={favoriteIds.value.has(recipeId) ? 'text-[var(--color-amber)] fill-[var(--color-amber)]' : 'text-[var(--text-secondary)]'}
+            />
+          </button>
+          <button
             onClick={() => openAdjustments(recipeId)}
             class="p-2 rounded-xl text-[var(--text-secondary)] relative active:scale-90 transition-transform"
           >
@@ -196,7 +206,7 @@ export function RecipeScreen() {
         {/* Bottom fade gradient */}
         <div class="sticky bottom-0 left-0 right-0 h-8 -mt-8 pointer-events-none z-10"
           style={{ background: 'linear-gradient(to top, var(--bg-app), transparent)' }} />
-        <h2 class="text-caption1 text-[var(--text-secondary)] uppercase tracking-wider mb-5 ml-8">
+        <h2 class="text-caption1 text-[var(--text-secondary)] uppercase tracking-wider mb-5">
           Steps
         </h2>
         <div class="relative pl-8">
@@ -262,7 +272,7 @@ function BrewsForRecipeSection({ recipeId }: { recipeId: string }) {
 
   return (
     <div class="mt-8">
-      <h2 class="text-caption1 text-[var(--text-secondary)] uppercase tracking-wider mb-3 ml-8">
+      <h2 class="text-caption1 text-[var(--text-secondary)] uppercase tracking-wider mb-3">
         Your Brews of this Recipe
       </h2>
       <div class="flex flex-col gap-2">

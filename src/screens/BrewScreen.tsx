@@ -10,6 +10,7 @@ import { playDoneSound } from '../lib/sound'
 import { autoTimersEnabled, brewTutorialSeen } from '../store/prefs'
 import { TimerRing } from '../components/TimerRing'
 import { BrewTutorial } from '../components/BrewTutorial'
+import { ConfirmModal } from '../components/ConfirmModal'
 
 // ── Helpers ──
 
@@ -86,6 +87,7 @@ export function BrewScreen() {
   const timerStateRef = useRef(timerState)
   timerStateRef.current = timerState
   const [showTutorial, setShowTutorial] = useState(false)
+  const [showStopConfirm, setShowStopConfirm] = useState(false)
 
   useEffect(() => {
     if (!brewTutorialSeen.value) {
@@ -198,10 +200,13 @@ export function BrewScreen() {
       goBack()
       return
     }
-    if (confirm('Stop brewing? You can resume later.')) {
-      if (timerRef.current) clearInterval(timerRef.current)
-      goBack()
-    }
+    setShowStopConfirm(true)
+  }
+
+  const handleStopConfirm = () => {
+    if (timerRef.current) clearInterval(timerRef.current)
+    setShowStopConfirm(false)
+    goBack()
   }
 
   const totalWaterPoured = calculateTotalWaterPoured(currentStep, steps, waterMultiplier)
@@ -430,6 +435,15 @@ export function BrewScreen() {
       )}
 
       {showTutorial && <BrewTutorial onDismiss={() => setShowTutorial(false)} />}
+
+      <ConfirmModal
+        open={showStopConfirm}
+        title="Stop brewing?"
+        message="You can resume this brew later."
+        confirmLabel="Stop"
+        onConfirm={handleStopConfirm}
+        onCancel={() => setShowStopConfirm(false)}
+      />
     </div>
   )
 }
