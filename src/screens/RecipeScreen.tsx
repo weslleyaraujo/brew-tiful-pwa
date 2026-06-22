@@ -143,6 +143,7 @@ export function RecipeScreen() {
         <div class="flex items-center gap-2 mt-1.5">
           <Badge variant="amber">{formatMethod(recipe.method)}</Badge>
           {adjusted && <Badge variant="red">Adjusted</Badge>}
+          {recipe.ice && <Badge variant="blue">Iced</Badge>}
         </div>
       </div>
 
@@ -162,6 +163,14 @@ export function RecipeScreen() {
             </span>
             <span class="text-caption2 text-[var(--text-tertiary)] uppercase tracking-wider mt-1">Water</span>
           </div>
+          {recipe.ice && (
+            <div class="flex flex-col">
+              <span class="text-largetitle-bold leading-none text-[var(--text-primary)]">
+                {recipe.ice}<span class="text-title2 text-[var(--text-tertiary)] font-normal ml-1">g</span>
+              </span>
+              <span class="text-caption2 text-[var(--text-tertiary)] uppercase tracking-wider mt-1">Ice</span>
+            </div>
+          )}
         </div>
 
         {/* Thin separator */}

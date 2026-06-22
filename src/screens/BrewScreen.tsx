@@ -197,7 +197,7 @@ export function BrewScreen() {
   const handleDismiss = () => {
     if (currentStep === 0 || currentStep >= totalSteps - 1) {
       if (timerRef.current) clearInterval(timerRef.current)
-      goBack()
+      navigateTo({ type: 'recipe', recipeId })
       return
     }
     setShowStopConfirm(true)
@@ -206,7 +206,7 @@ export function BrewScreen() {
   const handleStopConfirm = () => {
     if (timerRef.current) clearInterval(timerRef.current)
     setShowStopConfirm(false)
-    goBack()
+    navigateTo({ type: 'recipe', recipeId })
   }
 
   const totalWaterPoured = calculateTotalWaterPoured(currentStep, steps, waterMultiplier)
@@ -354,6 +354,9 @@ export function BrewScreen() {
           }
           if (step.step === 'ADD_COFFEE_AND_WATER') {
             detailParts.unshift(formatWeight(displayBeans, 'mass'))
+          }
+          if (step.step === 'ADD_ICE' && recipe.ice) {
+            detailParts.push(formatWeight(recipe.ice, 'mass'))
           }
 
           return (

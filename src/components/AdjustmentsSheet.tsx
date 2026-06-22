@@ -31,9 +31,10 @@ function reducer(state: FormState, action: FormAction): FormState {
       if (state.mode === AdjustmentMode.VOLUME) return state
       const newRatio = normalizeRatioInput(action.payload)
       if (!newRatio) return state
-      const beansValue = calculateBeansFromWaterAndRatio(Number(state.water), newRatio)
+      const rounded = Math.round(newRatio * 10) / 10
+      const beansValue = calculateBeansFromWaterAndRatio(Number(state.water), rounded)
       if (!beansValue) return state
-      return { ...state, ratio: newRatio, beans: beansValue.toFixed(1) }
+      return { ...state, ratio: rounded, beans: beansValue.toFixed(1) }
     }
     case 'SET_WATER': {
       if (state.mode === AdjustmentMode.RATIO) return state
