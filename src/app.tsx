@@ -7,6 +7,7 @@ import { MethodScreen } from "./screens/MethodScreen";
 import { RecipeScreen } from "./screens/RecipeScreen";
 import { BrewScreen } from "./screens/BrewScreen";
 import { BrewHistoryScreen } from "./screens/BrewHistoryScreen";
+import { BrewDetailScreen } from "./screens/BrewDetailScreen";
 import { BrewCompleteScreen } from "./screens/BrewCompleteScreen";
 import { FavoritesScreen } from "./screens/FavoritesScreen";
 import { UpdatePrompt } from "./components/UpdatePrompt";
@@ -52,6 +53,7 @@ export function App() {
         {view.type === "recipe" && <RecipeScreen />}
         {view.type === "brew" && <BrewScreen />}
         {view.type === "brew-complete" && <BrewCompleteScreen />}
+        {view.type === "brew-detail" && <BrewDetailScreen />}
         {view.type === "favorites" && <FavoritesScreen />}
         {view.type === "history" && <BrewHistoryScreen />}
       </div>

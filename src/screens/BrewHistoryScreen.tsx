@@ -199,9 +199,10 @@ export function BrewHistoryScreen() {
 
                     <div class="flex flex-col gap-2">
                       {group.brews.map((brew, idx) => (
-                        <div
+                        <button
                           key={brew.id}
-                          class="bg-[var(--bg-card)] rounded-2xl border border-[var(--color-separator)] p-4 animate-scale-in"
+                          onClick={() => navigateTo({ type: 'brew-detail', brewId: brew.id })}
+                          class="text-left bg-[var(--bg-card)] rounded-2xl border border-[var(--color-separator)] p-4 animate-scale-in w-full active:scale-[0.98] transition-transform"
                           style={{ animationDelay: `${idx * 40}ms`, animationFillMode: 'backwards' }}
                         >
                           <div class="flex items-start justify-between gap-3">
@@ -236,13 +237,13 @@ export function BrewHistoryScreen() {
 
                             <div class="flex items-center gap-1 flex-shrink-0">
                               <button
-                                onClick={() => navigateTo({ type: 'brew', recipeId: brew.recipeId })}
+                                onClick={(e) => { e.stopPropagation(); navigateTo({ type: 'brew', recipeId: brew.recipeId }) }}
                                 class="w-8 h-8 rounded-full bg-[var(--color-amber)]/10 flex items-center justify-center active:scale-90 transition-transform"
                               >
                                 <Play size={14} strokeWidth={2.5} class="text-[var(--color-amber)] ml-0.5" />
                               </button>
                               <button
-                                onClick={() => setConfirmDelete(confirmDelete === brew.id ? null : brew.id)}
+                                onClick={(e) => { e.stopPropagation(); setConfirmDelete(confirmDelete === brew.id ? null : brew.id) }}
                                 class="w-8 h-8 rounded-full flex items-center justify-center active:scale-90 transition-transform text-[var(--text-tertiary)]"
                               >
                                 <Trash2 size={14} strokeWidth={1.5} />
@@ -267,7 +268,7 @@ export function BrewHistoryScreen() {
                               </button>
                             </div>
                           )}
-                        </div>
+                        </button>
                       ))}
                     </div>
                   </div>

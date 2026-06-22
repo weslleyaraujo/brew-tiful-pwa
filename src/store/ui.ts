@@ -15,8 +15,11 @@ export interface BrewCompleteView { type: 'brew-complete'; recipeId: string; bre
 export interface HistoryView { type: 'history' }
 export interface FavoritesView { type: 'favorites' }
 
+export interface BrewDetailView { type: 'brew-detail'; brewId: string }
+
 export type ViewState = 
   | { type: 'tabs' }
+  | BrewDetailView
   | MethodView
   | RecipeView
   | BrewView

@@ -241,19 +241,6 @@ export function BrewScreen() {
         }}
       />
 
-      {/* ── Glowing water line ── */}
-      <div
-        class="absolute left-0 right-0 z-0 pointer-events-none transition-all duration-[1500ms] ease-out"
-        style={{
-          bottom: `${totalProgress}%`,
-          height: '2px',
-          background: totalProgress > 2
-            ? 'linear-gradient(to right, transparent, rgba(245,158,11,0.25) 20%, rgba(245,158,11,0.35) 50%, rgba(245,158,11,0.25) 80%, transparent)'
-            : 'transparent',
-          boxShadow: totalProgress > 5 ? '0 0 12px rgba(245,158,11,0.12), 0 0 2px rgba(245,158,11,0.25)' : 'none',
-        }}
-      />
-
       {/* ── SVG wave layers ── */}
       <svg
         class="absolute inset-x-0 bottom-0 z-0 pointer-events-none animate-wave-morph-slow"
