@@ -50,6 +50,7 @@ export function MethodScreen() {
   const [search, setSearch] = useState('')
   const [timeFilter, setTimeFilter] = useState<TimeFilter>('all')
   const [sortBy, setSortBy] = useState<SortBy>('name')
+  const [icedOnly, setIcedOnly] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
 
   const filtered = useMemo(() => {
@@ -72,6 +73,11 @@ export function MethodScreen() {
       })
     }
 
+    // Iced filter
+    if (icedOnly) {
+      list = list.filter(r => r.ice != null && r.ice > 0)
+    }
+
     // Sort
     list.sort((a, b) => {
       if (sortBy === 'name') return a.name.localeCompare(b.name)
@@ -85,7 +91,7 @@ export function MethodScreen() {
     })
 
     return list
-  }, [allRecipes, search, timeFilter, sortBy])
+  }, [allRecipes, search, timeFilter, icedOnly, sortBy])
 
   useEffect(() => {
     inputRef.current?.focus()
@@ -158,6 +164,16 @@ export function MethodScreen() {
               {f.label}
             </button>
           ))}
+          <button
+            onClick={() => setIcedOnly(!icedOnly)}
+            class={`px-3 py-1.5 rounded-full text-caption1 font-medium whitespace-nowrap transition-all ${
+              icedOnly
+                ? 'bg-[var(--color-blue)] text-white'
+                : 'bg-[var(--bg-tertiary)]/50 text-[var(--text-secondary)] active:bg-[var(--bg-tertiary)]'
+            }`}
+          >
+            Iced
+          </button>
         </div>
         <div class="w-px h-5 bg-[var(--color-separator)] flex-shrink-0" />
         <div class="flex gap-1 flex-shrink-0">

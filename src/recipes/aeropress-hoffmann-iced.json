@@ -1,0 +1,17 @@
+{
+  "name": "James Hoffmann Iced",
+  "method": "AEROPRESS",
+  "beans": 22,
+  "water": 240,
+  "temperature": 95,
+  "grind": "MEDIUM_FINE",
+  "ice": 160,
+  "steps": [
+    { "step": "GRIND_COFFEE", "position": 1, "configs": [] },
+    { "step": "ADD_ICE", "position": 2, "configs": [] },
+    { "step": "RINSE_FILTER", "position": 3, "configs": [] },
+    { "step": "ADD_COFFEE_AND_WATER", "position": 4, "configs": [{ "type": "AMOUNT_OF_WATER", "value": 240 }] },
+    { "step": "BREW", "position": 5, "configs": [{ "type": "DURATION", "value": 60 }] },
+    { "step": "PLUNGE", "position": 6, "configs": [{ "type": "DURATION", "value": 30 }] }
+  ]
+}

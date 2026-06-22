@@ -1,0 +1,18 @@
+{
+  "name": "Seattle Coffee Gear Iced",
+  "method": "AEROPRESS",
+  "beans": 24,
+  "water": 100,
+  "temperature": 98,
+  "grind": "FINE",
+  "ice": 120,
+  "steps": [
+    { "step": "GRIND_COFFEE", "position": 1, "configs": [] },
+    { "step": "RINSE_FILTER", "position": 2, "configs": [] },
+    { "step": "ADD_ICE", "position": 3, "configs": [] },
+    { "step": "ADD_COFFEE_AND_WATER", "position": 4, "configs": [{ "type": "AMOUNT_OF_WATER", "value": 100 }] },
+    { "step": "STIR", "position": 5, "configs": [{ "type": "TIMES", "value": 3 }] },
+    { "step": "BREW", "position": 6, "configs": [{ "type": "DURATION", "value": 30 }] },
+    { "step": "PLUNGE", "position": 7, "configs": [{ "type": "DURATION", "value": 20 }] }
+  ]
+}

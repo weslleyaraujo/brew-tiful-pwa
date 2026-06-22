@@ -7,6 +7,7 @@ export const STEPS = [
   'GRIND_COFFEE',
   'RINSE_FILTER',
   'INVERT_AEROPRESS',
+  'ADD_ICE',
   'ADD_COFFEE_AND_WATER',
   'BLOOM',
   'ADD_WATER',

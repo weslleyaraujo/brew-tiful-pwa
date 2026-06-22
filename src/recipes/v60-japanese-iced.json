@@ -1,0 +1,19 @@
+{
+  "name": "Japanese Iced V60",
+  "method": "V60",
+  "beans": 22,
+  "water": 200,
+  "temperature": 92,
+  "grind": "MEDIUM",
+  "ice": 120,
+  "steps": [
+    { "step": "GRIND_COFFEE", "position": 1, "configs": [] },
+    { "step": "RINSE_FILTER", "position": 2, "configs": [] },
+    { "step": "ADD_ICE", "position": 3, "configs": [] },
+    { "step": "BLOOM", "position": 4, "configs": [{ "type": "AMOUNT_OF_WATER", "value": 45 }, { "type": "DURATION", "value": 45 }] },
+    { "step": "ADD_WATER", "position": 5, "configs": [{ "type": "AMOUNT_OF_WATER", "value": 80 }] },
+    { "step": "BREW", "position": 6, "configs": [{ "type": "DURATION", "value": 30 }] },
+    { "step": "ADD_WATER", "position": 7, "configs": [{ "type": "AMOUNT_OF_WATER", "value": 75 }] },
+    { "step": "WIGGLE", "position": 8, "configs": [{ "type": "TIMES", "value": 1 }] }
+  ]
+}
