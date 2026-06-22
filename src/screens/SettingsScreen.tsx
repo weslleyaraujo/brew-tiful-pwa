@@ -26,7 +26,7 @@ export function SettingsScreen() {
     <div class="flex flex-col gap-8 p-4 pt-[calc(16px+var(--safe-top))] pb-24 relative">
       {/* Warm ambient */}
       <div class="absolute inset-0 pointer-events-none"
-        style={{ background: 'linear-gradient(180deg, rgba(217,119,6,0.02) 0%, transparent 50%)' }} />
+        style={{ background: 'linear-gradient(180deg, rgba(217,119,6,0.04) 0%, transparent 50%)' }} />
 
       <h1 class="text-title1-bold font-display relative">Settings</h1>
 
