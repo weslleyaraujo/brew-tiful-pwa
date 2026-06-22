@@ -1,18 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" viewBox="0 0 192 192" fill="none">
-  <rect width="192" height="192" rx="40" fill="#007aff"/>
-  <g transform="translate(56, 36)">
-    <!-- Coffee cup body -->
-    <rect x="4" y="30" width="56" height="60" rx="8" fill="white"/>
-    <!-- Handle -->
-    <path d="M60 40 Q88 40 88 60 Q88 80 60 80" stroke="white" stroke-width="8" fill="none" stroke-linecap="round"/>
-    <!-- Coffee surface -->
-    <ellipse cx="32" cy="38" rx="24" ry="8" fill="rgba(0,0,0,0.1)"/>
-    <!-- Steam lines -->
-    <path d="M20 20 Q16 8 24 2" stroke="white" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.6"/>
-    <path d="M32 16 Q28 4 36 0" stroke="white" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.6"/>
-    <path d="M44 20 Q40 8 48 2" stroke="white" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.6"/>
-  </g>
-  <!-- Drip dot -->
-  <circle cx="96" cy="146" r="6" fill="white" opacity="0.4"/>
-  <circle cx="96" cy="152" r="4" fill="white" opacity="0.2"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" viewBox="0 0 192 192">
+  <rect width="192" height="192" fill="#000000"/>
+  <rect x="48" y="72" width="96" height="80" fill="none" stroke="#ffffff" stroke-width="10"/>
+  <path d="M144 94 L168 94 L168 130 L144 130" fill="none" stroke="#ffffff" stroke-width="10" stroke-linejoin="miter"/>
 </svg>

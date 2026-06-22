@@ -12,15 +12,16 @@ export default defineConfig({
     tailwindcss(),
     VitePWA({
       registerType: 'prompt',
-      includeAssets: ['icon-192.svg', 'icon-512.svg'],
+      includeAssets: ['favicon.svg', 'icon-192.svg', 'icon-512.svg', 'apple-touch-icon.svg'],
       manifest: {
         name: 'Brew-tiful',
         short_name: 'Brews',
         description: 'Guided coffee brewing recipes',
-        theme_color: '#fdfaf5',
-        background_color: '#fdfaf5',
+        theme_color: '#000000',
+        background_color: '#000000',
         display: 'standalone',
         orientation: 'portrait-primary',
+        scope: '/brew-tiful-pwa/',
         start_url: '/brew-tiful-pwa/',
         icons: [
           {

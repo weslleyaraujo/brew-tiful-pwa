@@ -1,13 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" fill="none">
-  <rect width="512" height="512" rx="107" fill="#007aff"/>
-  <g transform="translate(150, 96)">
-    <rect x="11" y="80" width="149" height="160" rx="21" fill="white"/>
-    <path d="M160 107 Q235 107 235 160 Q235 213 160 213" stroke="white" stroke-width="21" fill="none" stroke-linecap="round"/>
-    <ellipse cx="85" cy="101" rx="64" ry="21" fill="rgba(0,0,0,0.1)"/>
-    <path d="M53 53 Q43 21 64 5" stroke="white" stroke-width="8" fill="none" stroke-linecap="round" opacity="0.6"/>
-    <path d="M85 43 Q75 11 96 0" stroke="white" stroke-width="8" fill="none" stroke-linecap="round" opacity="0.6"/>
-    <path d="M117 53 Q107 21 128 5" stroke="white" stroke-width="8" fill="none" stroke-linecap="round" opacity="0.6"/>
-  </g>
-  <circle cx="256" cy="389" r="16" fill="white" opacity="0.4"/>
-  <circle cx="256" cy="405" r="11" fill="white" opacity="0.2"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <rect width="512" height="512" fill="#000000"/>
+  <rect x="128" y="192" width="256" height="213" fill="none" stroke="#ffffff" stroke-width="27"/>
+  <path d="M384 250 L450 250 L450 347 L384 347" fill="none" stroke="#ffffff" stroke-width="27" stroke-linejoin="miter"/>
 </svg>
