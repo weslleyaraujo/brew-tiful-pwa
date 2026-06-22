@@ -138,16 +138,16 @@ export function RecipeScreen() {
 
       {/* ── Hero stats ── */}
       <div class="px-4 pb-6 flex flex-col gap-3">
-        {/* Beans & Water — large, prominent, no card wrapper */}
+        {/* Beans & Water — large, prominent, normal font */}
         <div class="flex items-end gap-8">
           <div class="flex flex-col">
-            <span class="text-[48px] font-display leading-none text-[var(--text-primary)]">
+            <span class="text-largetitle-bold leading-none text-[var(--text-primary)]">
               {displayBeans}<span class="text-title2 text-[var(--text-tertiary)] font-normal ml-1">g</span>
             </span>
             <span class="text-caption2 text-[var(--text-tertiary)] uppercase tracking-wider mt-1">Beans</span>
           </div>
           <div class="flex flex-col">
-            <span class="text-[48px] font-display leading-none text-[var(--text-primary)]">
+            <span class="text-largetitle-bold leading-none text-[var(--text-primary)]">
               {displayWater}<span class="text-title2 text-[var(--text-tertiary)] font-normal ml-1">ml</span>
             </span>
             <span class="text-caption2 text-[var(--text-tertiary)] uppercase tracking-wider mt-1">Water</span>
@@ -157,7 +157,7 @@ export function RecipeScreen() {
         {/* Thin separator */}
         <div class="h-px bg-[var(--color-separator)]" />
 
-        {/* Secondary stats row */}
+        {/* Secondary stats row — ratio, temp, time, and grind inline */}
         <div class="flex items-center gap-3 text-caption1 text-[var(--text-tertiary)]">
           <span class="font-mono text-[var(--text-secondary)]">{ratio}</span>
           <span class="opacity-30">·</span>
@@ -168,25 +168,23 @@ export function RecipeScreen() {
               <span class="text-[var(--text-secondary)]">~{totalTime}</span>
             </>
           )}
-        </div>
-
-        {/* Grind — stepped indicator */}
-        <div class="flex items-center gap-1 max-w-[280px]">
-          {(['FINE', 'MEDIUM_FINE', 'MEDIUM', 'MEDIUM_COARSE', 'COARSE'] as const).map((g) => {
-            const isActive = recipe.grind === g
-            return (
-              <div key={g} class={`flex-1 flex flex-col items-center gap-1`}>
-                <div class={`w-full h-1 rounded-full transition-colors ${
-                  isActive ? 'bg-[var(--color-caramel)]' : 'bg-[var(--bg-tertiary)]'
-                }`} />
-                <span class={`text-[9px] font-medium leading-none whitespace-nowrap transition-colors ${
-                  isActive ? 'text-[var(--color-caramel)]' : 'text-[var(--text-tertiary)]/30'
-                }`}>
-                  {formatGrind(g)}
-                </span>
-              </div>
-            )
-          })}
+          <span class="opacity-30">·</span>
+          {/* Grind — inline pills: more pills = coarser */}
+          <span class="flex items-center gap-0.5">
+            <span class="text-[var(--text-tertiary)] mr-1">{formatGrind(recipe.grind)}</span>
+            {([1, 2, 3, 4, 5] as const).map((n) => {
+              const grindLevel = { FINE: 1, MEDIUM_FINE: 2, MEDIUM: 3, MEDIUM_COARSE: 4, COARSE: 5 }[recipe.grind] ?? 3
+              const active = n <= grindLevel
+              return (
+                <span
+                  key={n}
+                  class={`w-2 h-3 rounded-full transition-colors ${
+                    active ? 'bg-[var(--color-caramel)]' : 'bg-[var(--bg-tertiary)]'
+                  }`}
+                />
+              )
+            })}
+          </span>
         </div>
       </div>
 

@@ -101,6 +101,7 @@
       'Helvetica Neue', Arial, sans-serif;
     -webkit-font-smoothing: auto;
     -moz-osx-font-smoothing: auto;
+    -webkit-text-size-adjust: 100%;
     background-color: var(--bg-app);
     color: var(--text-primary);
     height: 100%;
@@ -112,6 +113,7 @@
     padding: 0;
     height: 100%;
     overscroll-behavior: none;
+    touch-action: pan-y;
     background-color: var(--bg-app);
     overflow: hidden;
   }
