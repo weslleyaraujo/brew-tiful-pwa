@@ -68,7 +68,7 @@ export function App() {
       </main>
 
       <nav
-        class="flex items-center justify-around px-2 pt-1 pb-2
+        class="flex items-center justify-around px-2 pt-1 pb-[calc(8px+var(--safe-bottom))]
                bg-[var(--bg-app)] border-t border-[var(--color-separator)]"
       >
         {TABS.map((tab) => {

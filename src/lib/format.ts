@@ -137,6 +137,7 @@ export function formatMethodDescription(method: string): string {
 const STEP_TITLES: Record<string, string> = {
   GRIND_COFFEE: 'Grind Coffee',
   RINSE_FILTER: 'Rinse Filter',
+  INVERT_AEROPRESS: 'Invert Aeropress',
   ADD_COFFEE_AND_WATER: 'Add Coffee & Water',
   BLOOM: 'Bloom',
   ADD_WATER: 'Pour Water',

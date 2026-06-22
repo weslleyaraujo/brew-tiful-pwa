@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from 'preact/hooks'
-import { X, Play, Pause, Droplets } from 'lucide-preact'
+import { X, Play, Pause, Droplets, RotateCw } from 'lucide-preact'
 import { getRecipeById, getAdjustment, addBrew } from '../store/recipes'
 import { goBack, navigateTo, activeView } from '../store/ui'
 import { formatWeight, formatDuration, formatStepTitle, formatGrind } from '../lib/format'
@@ -302,9 +302,9 @@ export function BrewScreen() {
 
         <div class="flex justify-end">
           {totalWaterPoured > 0 && (
-            <div class="bg-[var(--color-amber)] px-4 py-2 rounded-full flex items-center gap-2 animate-fade-in whitespace-nowrap shadow-md ring-1 ring-[var(--color-amber)]/30">
-              <Droplets size={14} strokeWidth={2.5} class="text-white flex-shrink-0" />
-              <span class="text-body-bold font-mono text-white">
+            <div class="bg-[var(--color-amber)]/15 px-4 py-2 rounded-full flex items-center gap-2 animate-fade-in whitespace-nowrap ring-1 ring-[var(--color-amber)]/30">
+              <Droplets size={14} strokeWidth={2.5} class="text-[var(--color-amber)] flex-shrink-0" />
+              <span class="text-body-bold font-mono text-[var(--color-amber)]">
                 {formatWeight(totalWaterPoured, 'volume')}
               </span>
             </div>
@@ -367,18 +367,21 @@ export function BrewScreen() {
           return (
             <div
               key={step.id}
-              class="h-full snap-start flex flex-col items-center justify-center gap-6 px-6 pt-[calc(112px+var(--safe-top))] pb-[calc(100px+var(--safe-bottom))]"
+              class="h-full snap-start flex flex-col items-center justify-center gap-4 px-6 pt-[calc(80px+var(--safe-top))] pb-[calc(80px+var(--safe-bottom))]"
               style="scroll-snap-align: start"
             >
               {/* Step number — large, ambient */}
-              <span class={`text-[64px] font-display leading-none transition-colors duration-500
+              <span class={`text-[56px] font-display leading-none transition-colors duration-500
                 ${isCurrent ? 'text-[var(--color-amber)]/25' : 'text-[var(--text-tertiary)]/10'}`}>
                 {String(index + 1).padStart(2, '0')}
               </span>
 
               {/* Step title */}
-              <h2 class={`text-title1-bold font-display text-center transition-colors duration-500
+              <h2 class={`text-title1-bold font-display text-center transition-colors duration-500 flex items-center justify-center gap-2
                 ${isCurrent ? 'text-[var(--text-primary)]' : 'text-[var(--text-tertiary)]'}`}>
+                {step.step === 'INVERT_AEROPRESS' && (
+                  <RotateCw size={28} strokeWidth={1.5} class={isCurrent ? 'text-[var(--color-amber)]' : 'text-[var(--text-tertiary)]/40'} />
+                )}
                 {formatStepTitle(step.step)}
               </h2>
 

@@ -6,6 +6,7 @@
   "temperature": 85,
   "grind": "FINE",
   "steps": [
+    { "step": "INVERT_AEROPRESS", "position": 0, "configs": [] },
     { "step": "GRIND_COFFEE", "position": 1, "configs": [] },
     { "step": "RINSE_FILTER", "position": 2, "configs": [] },
     { "step": "ADD_COFFEE_AND_WATER", "position": 3, "configs": [{ "type": "AMOUNT_OF_WATER", "value": 40 }] },

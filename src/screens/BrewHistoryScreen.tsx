@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'preact/hooks'
-import { brews, deleteBrew } from '../store/recipes'
+import { brews, deleteBrew, updateBrew } from '../store/recipes'
 import { navigateTo, goBack, activeView } from '../store/ui'
 import { formatMethod, formatWeight } from '../lib/format'
 import { ArrowLeft, Play, Clock, Star, FileText, Trash2, BarChart3, Coffee, TrendingUp, Flame } from 'lucide-preact'
@@ -72,18 +72,33 @@ function groupBrews(allBrews: typeof brews.value): Group[] {
   return groups
 }
 
-function Stars({ rating }: { rating?: number }) {
-  if (!rating) return null
+function Stars({ rating, onRate }: { rating?: number; onRate?: (star: number) => void }) {
+  const stars = [1, 2, 3, 4, 5]
   return (
     <span class="flex gap-0.5">
-      {[1, 2, 3, 4, 5].map(s => (
-        <Star
-          key={s}
-          size={10}
-          strokeWidth={1.5}
-          class={s <= rating ? 'text-[var(--color-amber)] fill-[var(--color-amber)]' : 'text-[var(--text-tertiary)]/20'}
-        />
-      ))}
+      {stars.map(s => {
+        const filled = rating ? s <= rating : false
+        return onRate ? (
+          <button
+            key={s}
+            onClick={(e) => { e.stopPropagation(); onRate(s === rating ? 0 : s) }}
+            class="active:scale-110 transition-transform"
+          >
+            <Star
+              size={10}
+              strokeWidth={1.5}
+              class={filled ? 'text-[var(--color-amber)] fill-[var(--color-amber)]' : 'text-[var(--text-tertiary)]/20'}
+            />
+          </button>
+        ) : (
+          <Star
+            key={s}
+            size={10}
+            strokeWidth={1.5}
+            class={filled ? 'text-[var(--color-amber)] fill-[var(--color-amber)]' : 'text-[var(--text-tertiary)]/20'}
+          />
+        )
+      })}
     </span>
   )
 }
@@ -202,7 +217,7 @@ export function BrewHistoryScreen() {
                               <div class="flex items-center gap-2 mt-1 text-caption2 text-[var(--text-tertiary)]">
                                 <Clock size={10} />
                                 <span>{formatDate(brew.brewedAt)}</span>
-                                {brew.rating && <Stars rating={brew.rating} />}
+                                <Stars rating={brew.rating} onRate={(s) => updateBrew(brew.id, { rating: s })} />
                               </div>
                               {brew.notes && (
                                 <div class="mt-2">

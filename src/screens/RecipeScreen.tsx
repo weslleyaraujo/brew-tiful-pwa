@@ -136,59 +136,57 @@ export function RecipeScreen() {
         </div>
       </div>
 
-      {/* ── Hero stats card ── */}
-      <div class="px-4 pb-6">
-        <div class="bg-[var(--bg-card)] rounded-2xl p-5 flex flex-col gap-3">
-          {/* Beans & Water — big, prominent */}
-          <div class="flex items-end gap-6">
-            <div class="flex flex-col">
-              <span class="text-caption2 text-[var(--text-tertiary)] uppercase tracking-wider mb-1">Beans</span>
-              <span class="text-title1-bold font-display text-[var(--text-primary)]">
-                {displayBeans}<span class="text-body text-[var(--text-tertiary)] font-normal ml-0.5">g</span>
-              </span>
-            </div>
-            <div class="flex flex-col">
-              <span class="text-caption2 text-[var(--text-tertiary)] uppercase tracking-wider mb-1">Water</span>
-              <span class="text-title1-bold font-display text-[var(--text-primary)]">
-                {displayWater}<span class="text-body text-[var(--text-tertiary)] font-normal ml-0.5">ml</span>
-              </span>
-            </div>
+      {/* ── Hero stats ── */}
+      <div class="px-4 pb-6 flex flex-col gap-3">
+        {/* Beans & Water — large, prominent, no card wrapper */}
+        <div class="flex items-end gap-8">
+          <div class="flex flex-col">
+            <span class="text-[48px] font-display leading-none text-[var(--text-primary)]">
+              {displayBeans}<span class="text-title2 text-[var(--text-tertiary)] font-normal ml-1">g</span>
+            </span>
+            <span class="text-caption2 text-[var(--text-tertiary)] uppercase tracking-wider mt-1">Beans</span>
           </div>
-
-          {/* Separator */}
-          <div class="h-px bg-[var(--color-separator)]" />
-
-          {/* Secondary stats row */}
-          <div class="flex items-center gap-3 text-caption1 text-[var(--text-tertiary)]">
-            <span class="font-mono text-[var(--text-secondary)]">{ratio}</span>
-            <span class="opacity-30">·</span>
-            <span class="font-mono text-[var(--text-secondary)]">{formatTemperature(recipe.temperature)}</span>
-            {totalTime && (
-              <>
-                <span class="opacity-30">·</span>
-                <span class="text-[var(--text-secondary)]">~{totalTime}</span>
-              </>
-            )}
+          <div class="flex flex-col">
+            <span class="text-[48px] font-display leading-none text-[var(--text-primary)]">
+              {displayWater}<span class="text-title2 text-[var(--text-tertiary)] font-normal ml-1">ml</span>
+            </span>
+            <span class="text-caption2 text-[var(--text-tertiary)] uppercase tracking-wider mt-1">Water</span>
           </div>
+        </div>
 
-          {/* Grind — stepped indicator */}
-          <div class="flex items-center gap-1">
-            {(['FINE', 'MEDIUM_FINE', 'MEDIUM', 'MEDIUM_COARSE', 'COARSE'] as const).map((g) => {
-              const isActive = recipe.grind === g
-              return (
-                <div key={g} class={`flex-1 flex flex-col items-center gap-1`}>
-                  <div class={`w-full h-1.5 rounded-full transition-colors ${
-                    isActive ? 'bg-[var(--color-caramel)]' : 'bg-[var(--bg-tertiary)]'
-                  }`} />
-                  <span class={`text-[9px] font-medium leading-none whitespace-nowrap transition-colors ${
-                    isActive ? 'text-[var(--color-caramel)]' : 'text-[var(--text-tertiary)]/30'
-                  }`}>
-                    {formatGrind(g)}
-                  </span>
-                </div>
-              )
-            })}
-          </div>
+        {/* Thin separator */}
+        <div class="h-px bg-[var(--color-separator)]" />
+
+        {/* Secondary stats row */}
+        <div class="flex items-center gap-3 text-caption1 text-[var(--text-tertiary)]">
+          <span class="font-mono text-[var(--text-secondary)]">{ratio}</span>
+          <span class="opacity-30">·</span>
+          <span class="font-mono text-[var(--text-secondary)]">{formatTemperature(recipe.temperature)}</span>
+          {totalTime && (
+            <>
+              <span class="opacity-30">·</span>
+              <span class="text-[var(--text-secondary)]">~{totalTime}</span>
+            </>
+          )}
+        </div>
+
+        {/* Grind — stepped indicator */}
+        <div class="flex items-center gap-1 max-w-[280px]">
+          {(['FINE', 'MEDIUM_FINE', 'MEDIUM', 'MEDIUM_COARSE', 'COARSE'] as const).map((g) => {
+            const isActive = recipe.grind === g
+            return (
+              <div key={g} class={`flex-1 flex flex-col items-center gap-1`}>
+                <div class={`w-full h-1 rounded-full transition-colors ${
+                  isActive ? 'bg-[var(--color-caramel)]' : 'bg-[var(--bg-tertiary)]'
+                }`} />
+                <span class={`text-[9px] font-medium leading-none whitespace-nowrap transition-colors ${
+                  isActive ? 'text-[var(--color-caramel)]' : 'text-[var(--text-tertiary)]/30'
+                }`}>
+                  {formatGrind(g)}
+                </span>
+              </div>
+            )
+          })}
         </div>
       </div>
 
@@ -275,9 +273,20 @@ function BrewsForRecipeSection({ recipeId }: { recipeId: string }) {
           const isAdjusted = recipe && (brew.beans !== recipe.beans || brew.water !== recipe.water)
           
           return (
-            <div
+            <button
               key={brew.id}
-              class="bg-[var(--bg-card)] rounded-xl px-3 py-2.5"
+              onClick={() => {
+                if (isAdjusted) {
+                  setAdjustment(recipeId, {
+                    beans: brew.beans,
+                    water: brew.water,
+                    ice: brew.ice ?? null,
+                    ratio: brew.ratio,
+                  })
+                }
+                navigateTo({ type: 'brew', recipeId })
+              }}
+              class="text-left bg-[var(--bg-card)] rounded-xl px-3 py-2.5 active:scale-[0.98] transition-transform w-full"
             >
               <div class="flex items-center justify-between gap-2">
                 <div class="flex-1 min-w-0">
@@ -297,6 +306,7 @@ function BrewsForRecipeSection({ recipeId }: { recipeId: string }) {
                     <span class="text-caption2 text-[var(--text-tertiary)]">
                       {formatBrewDate(brew.brewedAt)}
                     </span>
+                    {isAdjusted && <Badge variant="amber">Adjusted</Badge>}
                   </div>
                   <div class="flex items-center gap-2 mt-1 text-caption1 font-mono text-[var(--text-secondary)]">
                     <span>{brew.beans}g</span>
@@ -304,9 +314,6 @@ function BrewsForRecipeSection({ recipeId }: { recipeId: string }) {
                     <span>{brew.water}ml</span>
                     <span class="text-[var(--text-tertiary)]">·</span>
                     <span>1:{brew.ratio.toFixed(1)}</span>
-                    {isAdjusted && (
-                      <span class="text-[var(--text-tertiary)]/60 text-caption2 font-sans">adjusted</span>
-                    )}
                   </div>
                   {brew.notes && (
                     <p class="text-caption1 text-[var(--text-secondary)] mt-1 italic line-clamp-2">
@@ -314,24 +321,11 @@ function BrewsForRecipeSection({ recipeId }: { recipeId: string }) {
                     </p>
                   )}
                 </div>
-                <button
-                  onClick={() => {
-                    if (isAdjusted) {
-                      setAdjustment(recipeId, {
-                        beans: brew.beans,
-                        water: brew.water,
-                        ice: brew.ice ?? null,
-                        ratio: brew.ratio,
-                      })
-                    }
-                    navigateTo({ type: 'brew', recipeId })
-                  }}
-                  class="flex-shrink-0 w-7 h-7 rounded-full bg-[var(--bg-tertiary)]/50 flex items-center justify-center active:scale-90 transition-transform"
-                >
-                  <Play size={12} strokeWidth={2.5} class="text-[var(--text-tertiary)] ml-0.5" />
-                </button>
+                <div class="flex-shrink-0 w-8 h-8 rounded-full bg-[var(--color-amber)]/15 flex items-center justify-center">
+                  <Play size={14} strokeWidth={2.5} class="text-[var(--color-amber)] ml-0.5" />
+                </div>
               </div>
-            </div>
+            </button>
           )
         })}
       </div>

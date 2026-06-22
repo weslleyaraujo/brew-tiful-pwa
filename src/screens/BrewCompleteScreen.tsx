@@ -1,7 +1,7 @@
 import { useState } from 'preact/hooks'
 import { goBack, navigateTo, activeView } from '../store/ui'
 import { getRecipeById, updateBrew } from '../store/recipes'
-import { Coffee, Star } from 'lucide-preact'
+import { Coffee } from 'lucide-preact'
 
 export function BrewCompleteScreen() {
   const view = activeView.value
@@ -10,11 +10,9 @@ export function BrewCompleteScreen() {
   const recipeId = view.recipeId
   const brewId = view.brewId
   const recipe = getRecipeById(recipeId)
-  const [rating, setRating] = useState(0)
   const [notes, setNotes] = useState('')
 
   function handleSave() {
-    if (rating > 0) updateBrew(brewId, { rating })
     if (notes.trim()) updateBrew(brewId, { notes: notes.trim() })
   }
 
@@ -75,28 +73,6 @@ export function BrewCompleteScreen() {
           </div>
         )}
 
-        {/* Rating */}
-        <div class="flex flex-col items-center gap-2">
-          <p class="text-caption1 text-[var(--text-tertiary)]">How was it?</p>
-          <div class="flex gap-1.5">
-            {[1, 2, 3, 4, 5].map((star) => (
-              <button
-                key={star}
-                onClick={() => setRating(star === rating ? 0 : star)}
-                class="p-1 transition-transform active:scale-110"
-              >
-                <Star
-                  size={28}
-                  strokeWidth={1.5}
-                  class={star <= rating
-                    ? 'text-[var(--color-amber)] fill-[var(--color-amber)]'
-                    : 'text-[var(--text-tertiary)]/30'}
-                />
-              </button>
-            ))}
-          </div>
-        </div>
-
         {/* Notes */}
         <div class="w-full max-w-xs">
           <textarea
@@ -112,16 +88,16 @@ export function BrewCompleteScreen() {
       {/* Actions */}
       <div class="px-4 pb-[calc(16px+var(--safe-bottom))] flex flex-col gap-2">
         <button
-          onClick={handleBrewAgain}
+          onClick={handleBackHome}
           class="w-full py-3.5 rounded-2xl bg-[var(--color-caramel)] text-white text-body-bold active:scale-[0.98] transition-transform"
         >
-          Brew Again
+          Back to Home
         </button>
         <button
-          onClick={handleBackHome}
-          class="w-full py-3.5 rounded-2xl bg-transparent text-[var(--text-secondary)] text-body active:scale-[0.98] transition-transform"
+          onClick={handleBrewAgain}
+          class="w-full py-3.5 rounded-2xl bg-[var(--bg-card)] text-[var(--text-secondary)] border border-[var(--color-separator)] text-body active:scale-[0.98] transition-transform"
         >
-          Back to Home
+          Brew Again
         </button>
       </div>
     </div>

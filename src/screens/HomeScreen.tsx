@@ -2,7 +2,7 @@ import { recentBrews, brews, favoriteIds, lastRecipeByMethod } from '../store/re
 import { navigateTo } from '../store/ui'
 import { formatMethod, formatMethodDescription } from '../lib/format'
 
-import { Play, Clock, Heart, Flame } from 'lucide-preact'
+import { Play, Clock, Bookmark, Flame } from 'lucide-preact'
 import { useMemo, useRef, useCallback } from 'preact/hooks'
 import type { Method } from '../db/types'
 
@@ -87,10 +87,10 @@ export function HomeScreen() {
           onClick={() => navigateTo({ type: 'favorites' })}
           class="p-2 rounded-xl text-[var(--text-secondary)] active:scale-90 transition-transform"
         >
-          <Heart
+          <Bookmark
             size={20}
             strokeWidth={2}
-            class={favoriteIds.value.size > 0 ? 'text-[var(--color-red)] fill-[var(--color-red)]' : ''}
+            class={favoriteIds.value.size > 0 ? 'text-[var(--color-amber)] fill-[var(--color-amber)]' : ''}
           />
         </button>
       </div>
