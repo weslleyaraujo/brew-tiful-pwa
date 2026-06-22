@@ -5,7 +5,7 @@
   "water": 100,
   "temperature": 91,
   "grind": "MEDIUM_FINE",
-  "ice": 100,
+  "ice": 180,
   "steps": [
     { "step": "GRIND_COFFEE", "position": 1, "configs": [] },
     { "step": "ADD_ICE", "position": 2, "configs": [] },

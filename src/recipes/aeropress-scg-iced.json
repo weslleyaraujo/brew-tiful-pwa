@@ -5,7 +5,7 @@
   "water": 100,
   "temperature": 98,
   "grind": "FINE",
-  "ice": 120,
+  "ice": 100,
   "steps": [
     { "step": "GRIND_COFFEE", "position": 1, "configs": [] },
     { "step": "RINSE_FILTER", "position": 2, "configs": [] },
