@@ -308,7 +308,7 @@ function BrewsForRecipeSection({ recipeId }: { recipeId: string }) {
               <div class="flex items-center justify-between gap-2">
                 <div class="flex-1 min-w-0">
                   <div class="flex items-center gap-1.5">
-                    {brew.rating && (
+                    {brew.rating != null && brew.rating > 0 && (
                       <span class="flex gap-0.5">
                         {[1, 2, 3, 4, 5].map(s => (
                           <Star
@@ -332,11 +332,11 @@ function BrewsForRecipeSection({ recipeId }: { recipeId: string }) {
                     <span class="text-[var(--text-tertiary)]">·</span>
                     <span>1:{brew.ratio.toFixed(1)}</span>
                   </div>
-                  {brew.notes && (
+                  {brew.notes ? (
                     <p class="text-caption1 text-[var(--text-secondary)] mt-1 italic line-clamp-2">
                       "{brew.notes}"
                     </p>
-                  )}
+                  ) : null}
                 </div>
                 <div class="flex-shrink-0 w-8 h-8 rounded-full bg-[var(--color-amber)]/15 flex items-center justify-center">
                   <Play size={14} strokeWidth={2.5} class="text-[var(--color-amber)] ml-0.5" />

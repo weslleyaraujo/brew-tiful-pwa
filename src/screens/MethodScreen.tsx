@@ -1,5 +1,5 @@
 import { useState, useMemo, useRef, useEffect } from 'preact/hooks'
-import { recipesByMethod } from '../store/recipes'
+import { recipesByMethod, brews } from '../store/recipes'
 import { navigateTo, goBack, activeView } from '../store/ui'
 import { formatMethod, formatWeight, formatTemperature, formatMethodDescription } from '../lib/format'
 import { calculateRatio } from '../lib/conversion'
@@ -51,6 +51,7 @@ export function MethodScreen() {
   const [timeFilter, setTimeFilter] = useState<TimeFilter>('all')
   const [sortBy, setSortBy] = useState<SortBy>('name')
   const [icedOnly, setIcedOnly] = useState(false)
+  const [brewedOnly, setBrewedOnly] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
 
   const filtered = useMemo(() => {
@@ -78,6 +79,12 @@ export function MethodScreen() {
       list = list.filter(r => r.ice != null && r.ice > 0)
     }
 
+    // Brewed filter
+    if (brewedOnly) {
+      const brewedIds = new Set(brews.value.map(b => b.recipeId))
+      list = list.filter(r => brewedIds.has(r.id))
+    }
+
     // Sort
     list.sort((a, b) => {
       if (sortBy === 'name') return a.name.localeCompare(b.name)
@@ -91,7 +98,7 @@ export function MethodScreen() {
     })
 
     return list
-  }, [allRecipes, search, timeFilter, icedOnly, sortBy])
+  }, [allRecipes, search, timeFilter, icedOnly, brewedOnly, sortBy])
 
   useEffect(() => {
     inputRef.current?.focus()
@@ -174,6 +181,16 @@ export function MethodScreen() {
           >
             Iced
           </button>
+          <button
+            onClick={() => setBrewedOnly(!brewedOnly)}
+            class={`px-3 py-1.5 rounded-full text-caption1 font-medium whitespace-nowrap transition-all ${
+              brewedOnly
+                ? 'bg-[var(--color-caramel)] text-white'
+                : 'bg-[var(--bg-tertiary)]/50 text-[var(--text-secondary)] active:bg-[var(--bg-tertiary)]'
+            }`}
+          >
+            Brewed
+          </button>
         </div>
         <div class="w-px h-5 bg-[var(--color-separator)] flex-shrink-0" />
         <div class="flex gap-1 flex-shrink-0">
@@ -212,6 +229,8 @@ export function MethodScreen() {
               const time = formatTime(estimateTime(recipe.steps))
               const grind = grindLevel(recipe.grind)
 
+              const brewCount = brews.value.filter(b => b.recipeId === recipe.id).length
+
               return (
                 <button
                   key={recipe.id}
@@ -222,7 +241,14 @@ export function MethodScreen() {
 
 
                   <div class="flex-1 min-w-0">
-                    <p class="text-body-bold truncate">{recipe.name}</p>
+                    <div class="flex items-center gap-2">
+                      <p class="text-body-bold truncate">{recipe.name}</p>
+                      {brewCount > 0 && (
+                        <span class="text-caption2 font-mono text-[var(--color-amber)] bg-[var(--color-amber)]/8 px-1.5 py-0.5 rounded-full flex-shrink-0">
+                          {brewCount}×
+                        </span>
+                      )}
+                    </div>
                     <div class="flex items-center gap-2 mt-1 text-caption2 text-[var(--text-tertiary)]">
                       <span class="font-mono bg-[var(--color-amber)]/8 text-[var(--color-amber)] px-1.5 py-0.5 rounded-md">{ratio}</span>
                       <span class="flex items-center gap-0.5">

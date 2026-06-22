@@ -220,7 +220,7 @@ export function BrewHistoryScreen() {
                                 <span>{formatDate(brew.brewedAt)}</span>
                                 <Stars rating={brew.rating} onRate={(s) => updateBrew(brew.id, { rating: s })} />
                               </div>
-                              {brew.notes && (
+                              {brew.notes ? (
                                 <div class="mt-2">
                                   <button
                                     onClick={() => setExpandedNotes(expandedNotes === brew.id ? null : brew.id)}
@@ -232,7 +232,7 @@ export function BrewHistoryScreen() {
                                     </span>
                                   </button>
                                 </div>
-                              )}
+                              ) : null}
                             </div>
 
                             <div class="flex items-center gap-1 flex-shrink-0">
