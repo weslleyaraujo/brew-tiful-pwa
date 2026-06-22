@@ -1,0 +1,14 @@
+{
+  "name": "Alan Adler Espresso",
+  "method": "AEROPRESS",
+  "beans": 16,
+  "water": 60,
+  "temperature": 80,
+  "grind": "FINE",
+  "steps": [
+    { "step": "GRIND_COFFEE", "position": 1, "configs": [] },
+    { "step": "ADD_COFFEE_AND_WATER", "position": 2, "configs": [{ "type": "AMOUNT_OF_WATER", "value": 60 }] },
+    { "step": "STIR", "position": 3, "configs": [{ "type": "TIMES", "value": 1 }] },
+    { "step": "PLUNGE", "position": 4, "configs": [{ "type": "DURATION", "value": 30 }] }
+  ]
+}

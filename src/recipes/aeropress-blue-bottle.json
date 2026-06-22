@@ -1,0 +1,19 @@
+{
+  "name": "Blue Bottle",
+  "method": "AEROPRESS",
+  "beans": 15,
+  "water": 200,
+  "temperature": 93,
+  "grind": "FINE",
+  "steps": [
+    { "step": "GRIND_COFFEE", "position": 1, "configs": [] },
+    { "step": "RINSE_FILTER", "position": 2, "configs": [] },
+    { "step": "INVERT_AEROPRESS", "position": 3, "configs": [] },
+    { "step": "ADD_COFFEE_AND_WATER", "position": 4, "configs": [{ "type": "AMOUNT_OF_WATER", "value": 30 }] },
+    { "step": "BLOOM", "position": 5, "configs": [{ "type": "DURATION", "value": 30 }] },
+    { "step": "ADD_WATER", "position": 6, "configs": [{ "type": "AMOUNT_OF_WATER", "value": 170 }] },
+    { "step": "BREW", "position": 7, "configs": [{ "type": "DURATION", "value": 30 }] },
+    { "step": "STIR", "position": 8, "configs": [{ "type": "TIMES", "value": 10 }] },
+    { "step": "PLUNGE", "position": 9, "configs": [{ "type": "DURATION", "value": 20 }] }
+  ]
+}

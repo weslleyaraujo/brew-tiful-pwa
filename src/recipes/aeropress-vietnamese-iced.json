@@ -1,0 +1,14 @@
+{
+  "name": "Vietnamese Iced Coffee",
+  "method": "AEROPRESS",
+  "beans": 40,
+  "water": 100,
+  "temperature": 91,
+  "grind": "MEDIUM_FINE",
+  "steps": [
+    { "step": "GRIND_COFFEE", "position": 1, "configs": [] },
+    { "step": "ADD_COFFEE_AND_WATER", "position": 2, "configs": [{ "type": "AMOUNT_OF_WATER", "value": 50 }] },
+    { "step": "BREW", "position": 3, "configs": [{ "type": "DURATION", "value": 60 }] },
+    { "step": "PLUNGE", "position": 4, "configs": [{ "type": "DURATION", "value": 30 }] }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "name": "CoffeeGeek Metal Filter",
+  "method": "AEROPRESS",
+  "beans": 21,
+  "water": 245,
+  "temperature": 98,
+  "grind": "MEDIUM",
+  "steps": [
+    { "step": "GRIND_COFFEE", "position": 1, "configs": [] },
+    { "step": "ADD_COFFEE_AND_WATER", "position": 2, "configs": [{ "type": "AMOUNT_OF_WATER", "value": 100 }] },
+    { "step": "BLOOM", "position": 3, "configs": [{ "type": "DURATION", "value": 30 }] },
+    { "step": "STIR", "position": 4, "configs": [{ "type": "TIMES", "value": 3 }] },
+    { "step": "ADD_WATER", "position": 5, "configs": [{ "type": "AMOUNT_OF_WATER", "value": 100 }] },
+    { "step": "STIR", "position": 6, "configs": [{ "type": "TIMES", "value": 2 }] },
+    { "step": "ADD_WATER", "position": 7, "configs": [{ "type": "AMOUNT_OF_WATER", "value": 45 }] },
+    { "step": "BREW", "position": 8, "configs": [{ "type": "DURATION", "value": 60 }] },
+    { "step": "PLUNGE", "position": 9, "configs": [{ "type": "DURATION", "value": 45 }] }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "name": "James Hoffmann Espresso",
+  "method": "AEROPRESS",
+  "beans": 18,
+  "water": 90,
+  "temperature": 100,
+  "grind": "FINE",
+  "steps": [
+    { "step": "GRIND_COFFEE", "position": 1, "configs": [] },
+    { "step": "RINSE_FILTER", "position": 2, "configs": [] },
+    { "step": "ADD_COFFEE_AND_WATER", "position": 3, "configs": [{ "type": "AMOUNT_OF_WATER", "value": 90 }] },
+    { "step": "STIR", "position": 4, "configs": [{ "type": "TIMES", "value": 1 }] },
+    { "step": "BREW", "position": 5, "configs": [{ "type": "DURATION", "value": 120 }] },
+    { "step": "PLUNGE", "position": 6, "configs": [{ "type": "DURATION", "value": 30 }] }
+  ]
+}
