@@ -55,7 +55,22 @@ export async function loadRecipes() {
 
 // ── Adjustments ──
 
-export const adjustments = signal<Map<string, RecipeAdjustments>>(new Map())
+function loadAdjustments(): Map<string, RecipeAdjustments> {
+  try {
+    const raw = localStorage.getItem('brew-tiful:adjustments')
+    if (raw) {
+      const obj = JSON.parse(raw)
+      return new Map(Object.entries(obj))
+    }
+  } catch { /* ignore */ }
+  return new Map()
+}
+
+function saveAdjustments(map: Map<string, RecipeAdjustments>) {
+  try { localStorage.setItem('brew-tiful:adjustments', JSON.stringify(Object.fromEntries(map))) } catch { /* ignore */ }
+}
+
+export const adjustments = signal<Map<string, RecipeAdjustments>>(loadAdjustments())
 
 export function getAdjustment(recipeId: string): RecipeAdjustments | undefined {
   return adjustments.value.get(recipeId)
@@ -65,12 +80,14 @@ export function setAdjustment(recipeId: string, adj: RecipeAdjustments) {
   const next = new Map(adjustments.value)
   next.set(recipeId, adj)
   adjustments.value = next
+  saveAdjustments(next)
 }
 
 export function resetAdjustment(recipeId: string) {
   const next = new Map(adjustments.value)
   next.delete(recipeId)
   adjustments.value = next
+  saveAdjustments(next)
 }
 
 export function isRecipeAdjusted(recipeId: string): boolean {

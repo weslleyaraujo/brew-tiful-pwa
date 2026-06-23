@@ -1,5 +1,8 @@
+import { useState } from 'preact/hooks'
+import { Download, Upload, AlertCircle } from 'lucide-preact'
 import { massUnit, volumeUnit, temperatureUnit, setMassUnit, setVolumeUnit, setTemperatureUnit, hapticsEnabled, setHapticsEnabled, autoTimersEnabled, setAutoTimersEnabled, notificationSoundsEnabled, setNotificationSoundsEnabled } from '../store/prefs'
 import { themeMode, setThemeMode, type ThemeMode } from '../store/ui'
+import { downloadExport, importData, pickImportFile } from '../db/export'
 
 function SegmentedControl<T extends string>({ value, onChange, options }: { value: T; onChange: (v: T) => void; options: { label: string; value: T }[] }) {
   return (
@@ -22,6 +25,21 @@ function SegmentedControl<T extends string>({ value, onChange, options }: { valu
 }
 
 export function SettingsScreen() {
+  const [importMsg, setImportMsg] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
+
+  async function handleImport() {
+    setImportMsg(null)
+    const json = await pickImportFile()
+    if (!json) return
+    const result = importData(json)
+    if (result.success) {
+      setImportMsg({ type: 'success', text: 'Imported! Reloading…' })
+      setTimeout(() => window.location.reload(), 800)
+    } else {
+      setImportMsg({ type: 'error', text: result.error ?? 'Import failed' })
+    }
+  }
+
   return (
     <div class="flex flex-col gap-8 p-4 pt-[calc(16px+var(--safe-top))] pb-24 relative">
       {/* Warm ambient */}
@@ -72,6 +90,34 @@ export function SettingsScreen() {
           <ToggleRow label="Auto-start timers" value={autoTimersEnabled.value} onChange={setAutoTimersEnabled} />
           <ToggleRow label="Notification sounds" value={notificationSoundsEnabled.value} onChange={setNotificationSoundsEnabled} last />
         </div>
+      </section>
+
+      {/* Data */}
+      <section class="relative flex flex-col gap-3">
+        <p class="text-caption1 text-[var(--text-tertiary)] uppercase tracking-wider">Data</p>
+        <div class="bg-[var(--bg-card)] rounded-2xl border border-[var(--color-separator)] overflow-hidden">
+          <button
+            onClick={downloadExport}
+            class="flex items-center gap-3 px-4 py-3.5 w-full text-body active:bg-[var(--bg-tertiary)]/30 transition-colors border-b border-[var(--color-separator)]"
+          >
+            <Download size={18} strokeWidth={2} class="text-[var(--color-caramel)]" />
+            <span>Export backup</span>
+            <span class="ml-auto text-caption1 text-[var(--text-tertiary)]">.json</span>
+          </button>
+          <button
+            onClick={handleImport}
+            class="flex items-center gap-3 px-4 py-3.5 w-full text-body active:bg-[var(--bg-tertiary)]/30 transition-colors"
+          >
+            <Upload size={18} strokeWidth={2} class="text-[var(--color-caramel)]" />
+            <span>Import backup</span>
+          </button>
+        </div>
+        {importMsg && (
+          <div class={`flex items-center gap-2 text-caption1 px-1 ${importMsg.type === 'error' ? 'text-[var(--color-red)]' : 'text-[var(--color-green)]'}`}>
+            <AlertCircle size={14} strokeWidth={2} />
+            <span>{importMsg.text}</span>
+          </div>
+        )}
       </section>
     </div>
   )

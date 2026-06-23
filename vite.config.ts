@@ -12,7 +12,7 @@ export default defineConfig({
     tailwindcss(),
     VitePWA({
       registerType: 'prompt',
-      includeAssets: ['favicon.svg', 'icon-192.svg', 'icon-512.svg', 'apple-touch-icon.svg'],
+      includeAssets: ['favicon.svg', 'favicon.png', 'icon-192.png', 'icon-192.png', 'icon-512.svg', 'icon-512.png', 'apple-touch-icon.svg', 'apple-touch-icon.png'],
       manifest: {
         name: 'Brew-tiful',
         short_name: 'Brews',
@@ -25,19 +25,19 @@ export default defineConfig({
         start_url: '/brew-tiful-pwa/',
         icons: [
           {
-            src: 'icon-192.svg',
+            src: 'icon-192.png',
             sizes: '192x192',
-            type: 'image/svg+xml',
+            type: 'image/png',
           },
           {
-            src: 'icon-512.svg',
+            src: 'icon-512.png',
             sizes: '512x512',
-            type: 'image/svg+xml',
+            type: 'image/png',
           },
           {
-            src: 'icon-512.svg',
+            src: 'icon-512.png',
             sizes: '512x512',
-            type: 'image/svg+xml',
+            type: 'image/png',
             purpose: 'maskable',
           },
         ],
@@ -47,14 +47,14 @@ export default defineConfig({
             short_name: 'Brew',
             description: 'Quick-start a brew',
             url: '/brew-tiful-pwa/?action=brew',
-            icons: [{ src: 'icon-192.svg', sizes: '96x96' }],
+            icons: [{ src: 'icon-192.png', sizes: '96x96' }],
           },
           {
             name: 'View Recipes',
             short_name: 'Recipes',
             description: 'Browse recipes',
             url: '/brew-tiful-pwa/?action=recipes',
-            icons: [{ src: 'icon-192.svg', sizes: '96x96' }],
+            icons: [{ src: 'icon-192.png', sizes: '96x96' }],
           },
         ],
       },
