@@ -30,6 +30,10 @@ export function App() {
   useEffect(() => {
     initPrefs();
     loadRecipes();
+    // Force portrait orientation when installed as PWA
+    if (screen.orientation?.lock) {
+      screen.orientation.lock('portrait-primary').catch(() => {});
+    }
   }, []);
 
   // Loading state

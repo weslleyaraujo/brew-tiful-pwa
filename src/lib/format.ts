@@ -20,7 +20,7 @@ export function formatWeight(
       const oz = convertGramsToOunces(value)
       return `${roundToDecimal(oz, 2)} oz`
     }
-    return `${roundToDecimal(value, 0)} g`
+    return `${roundToDecimal(value, 1)} g`
   }
 
   // Volume
@@ -29,7 +29,7 @@ export function formatWeight(
     const floz = convertMillilitersToFluidOunces(value)
     return `${roundToDecimal(floz, 2)} fl oz`
   }
-  return `${roundToDecimal(value, 0)} ml`
+  return `${roundToDecimal(value, 1)} ml`
 }
 
 export function formatWeightValue(

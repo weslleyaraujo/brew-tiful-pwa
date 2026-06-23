@@ -405,3 +405,25 @@ html, body, * {
   -webkit-mask-image: linear-gradient(to right, black calc(100% - 32px), transparent 100%);
   mask-image: linear-gradient(to right, black calc(100% - 32px), transparent 100%);
 }
+
+/* ── Landscape lock overlay ── */
+/*   Shown only on small screens in landscape when orientation lock isn't available */
+@media screen and (orientation: landscape) and (max-height: 500px) {
+  body::before {
+    content: 'Rotate your device';
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #000000;
+    color: #ffffff;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 16px;
+    letter-spacing: 0.05em;
+  }
+  #app {
+    display: none;
+  }
+}

@@ -127,10 +127,29 @@ export function BrewScreen() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentStep])
 
+  // ── Wake lock: keep screen on while timer is running ──
+  const wakeLockRef = useRef<WakeLockSentinel | null>(null)
+  useEffect(() => {
+    if (timerState === 'running') {
+      navigator.wakeLock?.request('screen').then((wl) => {
+        wakeLockRef.current = wl
+        wl.addEventListener('release', () => { wakeLockRef.current = null })
+      }).catch(() => {})
+      return () => {
+        wakeLockRef.current?.release().catch(() => {})
+        wakeLockRef.current = null
+      }
+    } else {
+      wakeLockRef.current?.release().catch(() => {})
+      wakeLockRef.current = null
+    }
+  }, [timerState])
+
   // Cleanup timer on unmount
   useEffect(() => {
     return () => {
       if (timerRef.current) clearInterval(timerRef.current)
+      wakeLockRef.current?.release().catch(() => {})
     }
   }, [])
 
