@@ -1,5 +1,6 @@
 import { useEffect } from "preact/hooks";
 import { useRegisterSW } from "virtual:pwa-register/preact";
+import { initWakeLock } from "./lib/wakelock";
 import { House, Settings, Clock } from "lucide-preact";
 import { HomeScreen } from "./screens/HomeScreen";
 import { SettingsScreen } from "./screens/SettingsScreen";
@@ -30,7 +31,7 @@ export function App() {
   useEffect(() => {
     initPrefs();
     loadRecipes();
-    // Force portrait orientation when installed as PWA
+    initWakeLock();
     if (screen.orientation?.lock) {
       screen.orientation.lock('portrait-primary').catch(() => {});
     }
