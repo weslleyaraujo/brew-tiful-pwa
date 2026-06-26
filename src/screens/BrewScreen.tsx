@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from 'preact/hooks'
 import { X, Play, Pause, Droplets, RotateCw } from 'lucide-preact'
 import { getRecipeById, getAdjustment, addBrew } from '../store/recipes'
-import { goBack, navigateTo, replaceWith, activeView } from '../store/ui'
+import { goBack, replaceWith, activeView } from '../store/ui'
 import { formatWeight, formatDuration, formatStepTitle, formatGrind } from '../lib/format'
 import { calculateRatio } from '../lib/conversion'
 import type { StepData, Recipe } from '../db/types'
