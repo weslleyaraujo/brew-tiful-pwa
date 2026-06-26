@@ -29,12 +29,26 @@ export type ViewState =
 
 export const activeView = signal<ViewState>({ type: 'tabs' })
 
+const navStack = signal<ViewState[]>([])
+
 export function navigateTo(view: ViewState) {
+  navStack.value = [...navStack.value, activeView.value]
   activeView.value = view
 }
 
 export function goBack() {
-  activeView.value = { type: 'tabs' }
+  const stack = navStack.value
+  if (stack.length > 0) {
+    const prev = stack[stack.length - 1]
+    navStack.value = stack.slice(0, -1)
+    activeView.value = prev
+  } else {
+    activeView.value = { type: 'tabs' }
+  }
+}
+
+export function replaceWith(view: ViewState) {
+  activeView.value = view
 }
 
 // ── Dark mode ──

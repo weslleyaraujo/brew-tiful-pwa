@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from 'preact/hooks'
 import { X, Play, Pause, Droplets, RotateCw } from 'lucide-preact'
 import { getRecipeById, getAdjustment, addBrew } from '../store/recipes'
-import { goBack, navigateTo, activeView } from '../store/ui'
+import { goBack, navigateTo, replaceWith, activeView } from '../store/ui'
 import { formatWeight, formatDuration, formatStepTitle, formatGrind } from '../lib/format'
 import { calculateRatio } from '../lib/conversion'
 import type { StepData, Recipe } from '../db/types'
@@ -61,6 +61,7 @@ export function BrewScreen() {
   const adj = getAdjustment(recipeId)
   const displayBeans = adj?.beans ?? recipe.beans
   const displayWater = adj?.water ?? recipe.water
+  const displayIce = adj?.ice ?? recipe.ice
 
   // Scale water per step
   const totalWaterInSteps = recipe.steps.reduce((sum, s) => {
@@ -177,9 +178,9 @@ export function BrewScreen() {
         beans: displayBeans,
         water: displayWater,
         ratio,
-        ice: adj?.ice ?? null,
+        ice: displayIce ?? null,
       })
-      navigateTo({ type: 'brew-complete', recipeId, brewId: record.id })
+      replaceWith({ type: 'brew-complete', recipeId, brewId: record.id })
     } else {
       setCurrentStep((prev) => prev + 1)
       lightTap()
@@ -197,7 +198,7 @@ export function BrewScreen() {
   const handleDismiss = () => {
     if (currentStep === 0 || currentStep >= totalSteps - 1) {
       if (timerRef.current) clearInterval(timerRef.current)
-      navigateTo({ type: 'recipe', recipeId })
+      goBack()
       return
     }
     setShowStopConfirm(true)
@@ -206,7 +207,7 @@ export function BrewScreen() {
   const handleStopConfirm = () => {
     if (timerRef.current) clearInterval(timerRef.current)
     setShowStopConfirm(false)
-    navigateTo({ type: 'recipe', recipeId })
+    goBack()
   }
 
   const totalWaterPoured = calculateTotalWaterPoured(currentStep, steps, waterMultiplier)
@@ -355,8 +356,8 @@ export function BrewScreen() {
           if (step.step === 'ADD_COFFEE_AND_WATER') {
             detailParts.unshift(formatWeight(displayBeans, 'mass'))
           }
-          if (step.step === 'ADD_ICE' && recipe.ice) {
-            detailParts.push(formatWeight(recipe.ice, 'mass'))
+          if (step.step === 'ADD_ICE' && displayIce) {
+            detailParts.push(formatWeight(displayIce, 'mass'))
           }
 
           return (

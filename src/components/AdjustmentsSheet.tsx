@@ -103,7 +103,9 @@ export function AdjustmentsSheet({ recipe, displayBeans, displayWater }: Adjustm
   const isRatioMode = state.mode === AdjustmentMode.RATIO
 
   function handleDone() {
-    const adj: RecipeAdjustments = { ratio: state.ratio, water: Number(state.water), beans: Number(state.beans), ice: null }
+    const waterMult = Number(state.water) / recipe.water
+    const ice = recipe.ice ? Math.round(recipe.ice * waterMult) : null
+    const adj: RecipeAdjustments = { ratio: state.ratio, water: Number(state.water), beans: Number(state.beans), ice }
     if (Math.abs(adj.water - recipe.water) < 0.5 && Math.abs(adj.beans - recipe.beans) < 0.5) {
       resetAdjustment(recipe.id)
     } else {

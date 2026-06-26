@@ -49,7 +49,8 @@ function estimateTotalTime(steps: Recipe['steps']): string {
 function formatStepDetails(
   step: string,
   data: StepData,
-  recipe: Recipe
+  recipe: Recipe,
+  ice?: number
 ): string {
   const parts: string[] = []
   if (data.water) parts.push(formatWeight(data.water, 'volume'))
@@ -57,6 +58,7 @@ function formatStepDetails(
   if (data.times) parts.push(`${data.times}×`)
   if (step === 'GRIND_COFFEE') parts.push(formatGrind(recipe.grind))
   if (step === 'ADD_COFFEE_AND_WATER') parts.unshift(formatWeight(recipe.beans, 'mass'))
+  if (step === 'ADD_ICE' && ice) parts.push(formatWeight(ice, 'mass'))
   return parts.join(' · ')
 }
 
@@ -78,6 +80,7 @@ export function RecipeScreen() {
   const adj = getAdjustment(recipeId)
   const displayBeans = adj?.beans ?? recipe.beans
   const displayWater = adj?.water ?? recipe.water
+  const displayIce = adj?.ice ?? recipe.ice
   const adjusted = isRecipeAdjusted(recipeId)
 
   const r = recipe
@@ -163,10 +166,10 @@ export function RecipeScreen() {
             </span>
             <span class="text-caption2 text-[var(--text-tertiary)] uppercase tracking-wider mt-1">Water</span>
           </div>
-          {recipe.ice && (
+          {displayIce && (
             <div class="flex flex-col">
               <span class="text-largetitle-bold leading-none text-[var(--text-primary)]">
-                {recipe.ice}<span class="text-title2 text-[var(--text-tertiary)] font-normal ml-1">g</span>
+                {displayIce}<span class="text-title2 text-[var(--text-tertiary)] font-normal ml-1">g</span>
               </span>
               <span class="text-caption2 text-[var(--text-tertiary)] uppercase tracking-wider mt-1">Ice</span>
             </div>
@@ -224,7 +227,7 @@ export function RecipeScreen() {
 
           {recipe.steps.map((step, index) => {
             const data = getStepConfigData(step)
-            const detail = formatStepDetails(step.step, data, recipe)
+            const detail = formatStepDetails(step.step, data, recipe, displayIce)
             const hasDuration = Boolean(data.duration)
             const isLast = index === recipe.steps.length - 1
 
